@@ -1,0 +1,599 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | <%=sub_title%>
+    </title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <!-- Toastr  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+</head>
+
+<style>
+    body {
+        font-family: 'Roboto';
+    }
+
+    .shoping-cart-table td {
+        padding: 0;
+    }
+
+    .cart-plus-minus,
+    .dec.qtybutton,
+    .inc.qtybutton {
+        cursor: pointer;
+    }
+
+    .cart-plus-minus {
+        border-radius: 5px;
+        width: 120px;
+        height: 60px;
+    }
+
+    .shoping-cart-table .table tr {
+        display: table-row;
+    }
+
+    .badge-status {
+        background-color: red;
+        border-radius: 10px;
+        padding: 3px 10px;
+        font-size: 12px;
+        font-weight: 550;
+        color: white;
+    }
+
+    @media (max-width: 767px) {
+        .emptyCart {
+            width: 500px;
+        }
+    }
+
+    @media (min-width: 767px) {
+    .emptyCart {
+        margin-left: 330px;
+        width: 500px;
+    }
+    }
+</style>
+
+<body>
+
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
+
+        <%- include('includes/header.ejs'); %>
+
+            <div class="ltn__utilize-overlay"></div>
+
+            <hr style="height: 5px; color:#084434; margin: 20px;">
+
+            <!-- SHOPING CART AREA START -->
+            <% if(cart !=undefined && Object.keys(cart).length !=0){ %>
+                <!-- Session Cart -->
+                <div class="liton__shoping-cart-area mb-120">
+                    <div class="container">
+                        <h1 style="font-size: 25px;">Shopping Cart</h1>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="shoping-cart-inner">
+                                    <div class="shoping-cart-table table-responsive">
+                                        <table class="table">
+                                            <tbody id="record-list">
+                                                <% for (let key in cart) { %>
+                                                    <tr style="margin-top: 10px;">
+                                                        <td class="cart-product-image" style="padding-bottom: 20px; padding-top: 10px;">
+                                                            <a href="/product/single_product/<%=cart[key].stock_id%>"><img
+                                                                    src="https://storage.googleapis.com/products_bucket_1/<%=cart[key].image%>"
+                                                                    alt="#" width="70" height="70"
+                                                                    style="border-radius: 5px; border: 1px solid #e5e7e7;"></a>
+                                                        </td>
+                                                        <td class="cart-product-info">
+                                                            <h6><a href="/product/single_product/<%=cart[key].stock_id%>"
+                                                                    style="font-size: 13px;">
+                                                                    <%=cart[key].name;%>
+                                                                </a></h6>
+                                                        </td>
+                                                        <td class="cart-product-price">
+                                                            <p>Qty: <%=cart[key].quantity;%>
+                                                            </p>
+                                                            LKR <%=cart[key].unit_price.toLocaleString('en-US', {
+                                                                minimumFractionDigits: 2, maximumFractionDigits: 2 });%>
+                                                        </td>
+                                                        <td class="cart-product-quantity">
+                                                            <div class="cart-plus-minus">
+                                                                <span id="cart_id" hidden><%=cart[key].stock_id%></span>
+                                                                <input type="text" value="<%=cart[key].quantity;%>"
+                                                                    name="qtybutton" id="qtybutton" onchange="getUpdatedQty(event)"
+                                                                    class="cart-plus-minus-box record-input">
+                                                            </div>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <!-- <p>
+                                                                <a style="cursor: pointer;"
+                                                                    onclick="AddCartItemToWishList('<%=cart[key].stock_id%>')"
+                                                                    href="#"><span><i
+                                                                            class="far fa-heart"></i></span></a>&nbsp;&nbsp;&nbsp;
+                                                                <a style="cursor: pointer;"
+                                                                    onclick="RemoveCartItem('<%=cart[key].stock_id%>')"><span
+                                                                        style="color: rgb(192, 9, 9);"><i
+                                                                            class="fas fa-trash"></i></span></a>&nbsp;&nbsp;&nbsp;
+                                                                <a style="cursor: pointer;"
+                                                                    onclick="UpdateCartItem('<%=cart[key].stock_id%>')"><span><i
+                                                                            class="fas fa-edit"></i></span></a>
+                                                            </p> -->
+                                                            <p>
+                                                                <a style="cursor: pointer; margin-left: 70px;" onclick="RemoveCartItem('<%=cart[key].stock_id%>')"><span
+                                                                    style="color: rgb(192, 9, 9);"><i class="fas fa-trash"></i></span></a><br>
+                                                                <span>LKR <%=cart[key].total_price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });%></span>
+                                                            </p>                          
+                                                        </td>
+                                                    </tr>
+                                                    <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="btn-wrapper text-right">
+                                        <a style="cursor: pointer; padding: 7px 10px;" onclick="clearCart('code')"
+                                            class="theme-btn-1 btn btn-effect-1">Clear shopping cart</a>
+                                    </div>
+                                    <div class="shoping-cart-total mt-50">
+                                        <h4>Cart Totals</h4>
+                                        <% let subTotal=0; let totalDiscount=0; for (let key in cart) { subTotal
+                                            +=cart[key].total_price; totalDiscount +=cart[key].total_discount; } %>
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Cart Subtotal</td>
+                                                        <td style="float: right;">LKR
+                                                            <%=subTotal.toLocaleString('en-US', { minimumFractionDigits:
+                                                                2, maximumFractionDigits: 2 });%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total Discount</td>
+                                                        <td style="float: right;">LKR
+                                                            <%=totalDiscount.toLocaleString('en-US', {
+                                                                minimumFractionDigits: 2, maximumFractionDigits: 2 });%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tax</td>
+                                                        <td style="float: right;">LKR 0.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Order Total</strong></td>
+                                                        <td style="float: right;"><strong>LKR
+                                                                <%=(subTotal-totalDiscount).toLocaleString('en-US', {
+                                                                    minimumFractionDigits: 2, maximumFractionDigits: 2
+                                                                    });%></strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="btn-wrapper text-right">
+                                                <a href="/checkout_page" class="theme-btn-1 btn btn-effect-1">Proceed to
+                                                    checkout</a>
+                                            </div>
+                                            <a href="/" class=""
+                                                style="float:right; line-height: 50px; font-weight: bold;">Continue
+                                                Shopping
+                                                &nbsp; &rarr;</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } else if(userCart !=undefined && cartItems!=undefined){ %>
+                        <!-- User Cart -->
+                        <div class="liton__shoping-cart-area mb-120">
+                            <div class="container">
+                                <h1 style="font-size: 25px;">Shopping Cart</h1>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="shoping-cart-inner">  
+                                            <div class="shoping-cart-table table-responsive">
+                                                <table class="table">
+                                                    <tbody id="record-list">
+                                                        <% for (let i=0; i < cartItems.length; i++) { %>
+                                                            <tr style="margin-top: 5px;">
+                                                                <td class="cart-product-image"
+                                                                    style="padding-bottom: 10px;">
+                                                                    <% if(cartItems[i].image != "") { %>
+                                                                    <a href="#"><img
+                                                                            src="https://storage.googleapis.com/products_bucket_1/<%=cartItems[i].image%>"
+                                                                            alt="#" width="70" height="70"
+                                                                            style="border-radius: 5px; border: 1px solid #e5e7e7; object-fit: contain;"></a>
+                                                                    <% }else{ %>
+                                                                        <a href="#"><img
+                                                                            src="/img/Default2.png"
+                                                                            alt="#" width="70" height="70"
+                                                                            style="border-radius: 5px; border: 1px solid #e5e7e7; object-fit: contain;"></a>
+                                                                    <% } %>
+                                                                </td>
+                                                                <td class="cart-product-info">
+                                                                    <h6><a href="/product/single_product/<%=cartItems[i].ecomStockId%>"
+                                                                            style="font-size: 13px;">
+                                                                            <%=cartItems[i].name%>
+                                                                        </a></h6>
+                                                                    <% if(cartItems[i].status !='Available' ){ %>
+                                                                        <span class="badge-status">
+                                                                            <%=cartItems[i].status%>
+                                                                        </span>
+                                                                        <% } %>
+                                                                </td>
+                                                                <td class="cart-product-price">
+                                                                    <p>Qty: <%=cartItems[i].quantity%>
+                                                                    </p>
+                                                                    LKR
+                                                                    <%=cartItems[i].unitPrice.toLocaleString('en-US', {
+                                                                        minimumFractionDigits: 2, maximumFractionDigits:
+                                                                        2 });%>
+                                                                </td>
+                                                                <td class="cart-product-quantity">
+                                                                    <div class="cart-plus-minus">
+                                                                        <span id="cart_id" hidden><%=cartItems[i].id%></span>
+                                                                        
+                                                                        <input type="text"
+                                                                            value="<%=cartItems[i].quantity;%>"
+                                                                            name="qtybutton" id="qtybutton" onchange="getUpdatedQty(event)"
+                                                                            class="cart-plus-minus-box record-input">
+                                                                    </div>
+                                                                </td>
+                                                                <td class="cart-product-subtotal">
+                                                                    <p>
+                                                                        <!-- <a style="cursor: pointer;"
+                                                                            onclick="AddCartItemToWishList('<%=cartItems[i].id%>')"
+                                                                            href="#"><span><i
+                                                                                    class="far fa-heart"></i></span></a>&nbsp;&nbsp;&nbsp; -->
+                                                                        <!-- <a style="cursor: pointer; margin-left: 70px;"
+                                                                            onclick="RemoveCartItem('<%=cartItems[i].id%>')"><span
+                                                                                style="color: rgb(209, 24, 24);"><i
+                                                                                    class="fa fa-trash"></i></span></a> -->
+                                                                        <!-- <a style="cursor: pointer;"
+                                                                            onclick="UpdateCartItem('<%=cartItems[i].id%>')"><span><i
+                                                                                    class="fas fa-edit"></i></span></a> -->
+                                                                    </p>
+                                                                    <p>
+                                                                        <a style="cursor: pointer; margin-left: 70px;" onclick="RemoveCartItem('<%=cartItems[i].id%>')"><span
+                                                                            style="color: rgb(209, 24, 24);"><i class="fas fa-trash"></i></span></a><br>                                                                       
+                                                                        <span>LKR <%=(cartItems[i].unitPrice * cartItems[i].quantity).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });%></span>
+                                                                    </p>                                                                  
+
+                                                                </td>
+                                                            </tr>
+                                                            <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="btn-wrapper text-right">
+                                                <a style="cursor: pointer; padding: 7px 10px;"
+                                                    onclick="clearCart('<%=userCart.customerCode%>')"
+                                                    class="theme-btn-1 btn btn-effect-1">Clear shopping cart</a>
+                                            </div>
+                                            <div class="shoping-cart-total mt-50">
+                                                <h4>Cart Totals</h4>
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Cart Subtotal</td>
+                                                            <td style="float: right;">LKR
+                                                                <%=userCart.subTotal.toLocaleString('en-US', {
+                                                                    minimumFractionDigits: 2, maximumFractionDigits: 2
+                                                                    });%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Total Discount</td>
+                                                            <td style="float: right;">LKR
+                                                                <%=userCart.totalDiscount.toLocaleString('en-US', {
+                                                                    minimumFractionDigits: 2, maximumFractionDigits: 2
+                                                                    });%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Tax</td>
+                                                            <td style="float: right;">LKR 0.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Order Total</strong></td>
+                                                            <td style="float: right;"><strong>LKR
+                                                                    <%=userCart.orderTotal.toLocaleString('en-US', {
+                                                                        minimumFractionDigits: 2, maximumFractionDigits:
+                                                                        2 });%></strong></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="btn-wrapper text-right">
+                                                    <a href="/checkout_page" class="theme-btn-1 btn btn-effect-1">Proceed
+                                                        to checkout</a>
+                                                </div>
+                                                <a href="/" class=""
+                                                    style="float:right; line-height: 50px; font-weight: bold;">Continue
+                                                    Shopping
+                                                    &nbsp; &rarr;</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } else { %>
+                            <!-- SHOPING CART AREA END -->
+
+                            <div class="liton__shoping-cart-area mb-120">
+                                <div class="container" style="background-color: #f8f8f8;">
+                                    <img src="/img/empty-cart.png" alt="" class="emptyCart">
+                                </div>
+                            </div>
+                            <% } %>
+
+                            <%- include('includes/footer.ejs'); %>
+
+    </div>
+    <!-- Body main wrapper end -->
+
+    <!-- All JS Plugins -->
+    <script src="js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="js/main.js"></script>
+    <!-- <script src="js/shop.js"></script> -->
+    <!-- Toastr  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+
+    <script>
+        let inputValue;
+        $(".cart-plus-minus").prepend('<div class="dec qtybutton">-</div>');
+        $(".cart-plus-minus").append('<div class="inc qtybutton">+</div>');
+        $(".qtybutton").on("click", function () {
+            var $button = $(this);
+            var cartId = $button.parent().find("span").text();
+            var oldValue = $button.parent().find("input").val();
+            // //console.log("cartId: "+cartId)
+            if ($button.text() == "+") {
+                var newVal = parseFloat(oldValue) + 1;              
+                inputValue = newVal
+                UpdateCartItem(cartId)
+                // //console.log(newVal)
+            } else {
+                const element = document.querySelector('.inc.qtybutton');
+                element.style.pointerEvents = 'auto';
+                if (oldValue > 1) {
+                    var newVal = parseFloat(oldValue) - 1;
+                }
+                else {
+                    newVal = 1;
+                }
+                inputValue = newVal
+                UpdateCartItem(cartId)
+                // //console.log(newVal)
+            }
+            $button.parent().find("input").val(newVal);
+        });
+
+        function getUpdatedQty(){
+            inputValue = event.target.value;
+            var cartId = event.target.parentNode.querySelector("#cart_id").textContent;
+            // //console.log(inputValue);
+            // //console.log(cartId);
+            UpdateCartItem(cartId)
+        }
+
+        // Update Cart Process ------------------------------------------------------------------------------------
+        const recordList = document.querySelector("#record-list");
+        
+        recordList.addEventListener("change", (event) => {
+            if (event.target.classList.contains("record-input")) {
+                inputValue = event.target.value;
+                // //console.log(inputValue);
+            }
+        });
+        function UpdateCartItem(id) {
+            if ('<%=current_user%>' != "") {
+                // alert('user cart')
+                //console.log(inputValue)
+                //console.log(id)
+                //console.log('----------------------------------------------------------------------------------')
+                if (inputValue != undefined) {
+                    $.ajax({
+                        url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/CartItem/Update?id=' + id + '&quantity=' + inputValue,
+                        type: 'PUT',
+                        headers: {
+                            Authorization: 'Bearer ' + '<%=authToken%>'
+                        },
+                        success: function (res) {
+                            // //console.log(res)
+                            if (res.status == "Success") {
+                                // toastr.success("Cart Item Updated.", "Success", "success")
+                                // setTimeout(function () {
+                                    window.location.reload();
+                                // }, 1000);
+                            } else if (res.status == "Fail") {
+                                toastr.error("Stocks not enough!", "Error", "error")
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 1000);
+                            }
+                        }
+                    });
+                } else {
+                    toastr.error("First enter the new Qty Value.", "Error", "error")
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                }
+
+            } else {
+                // alert('session cart')
+                var stock_id = id;
+                var sessionCartString = unescape('<%= escape(JSON.stringify(sessionCart)) %>');
+                var sessionCart = JSON.parse(sessionCartString)
+                //console.log(inputValue)
+                //console.log(stock_id)
+                //console.log('----------------------------------------------------------------------------------')
+                //console.log(sessionCart);
+
+                if (inputValue != undefined) {
+                    // Access the individual objects:
+                    for (var key in sessionCart) {
+                        if (sessionCart.hasOwnProperty(key)) {
+                            //console.log('Item key:', key);
+                            if (key == stock_id) {
+                                const code = 'cart_items';
+                                fetch(`/cart/update_session_cart/${stock_id}&${inputValue}`)
+                                    .then(response => {
+                                        //console.log(response)
+                                        if (response.ok) {
+                                            //console.log("success")
+                                            // toastr.success("Cart Item Updated.", "Success", "success")
+                                            // setTimeout(function () {
+                                                window.location.reload();
+                                            // }, 2000);
+                                        } else {
+                                            throw new Error('Server response was not ok');
+                                        }
+
+                                    })
+                                    .catch(error => {
+                                        console.error('Error sending data to server:', error);
+                                    });
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    toastr.error('First enter the new Qty Value.', "Error", "error")
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                }
+            }
+        }
+        // Update Cart Process ------------------------------------------------------------------------------------
+
+        // Remove Cart Items ------------------------------------------------------------------------------------
+        function RemoveCartItem(id) {
+            //console.log(id);
+            if ('<%=current_user%>' != "") {
+                // alert('user cart')
+                $.ajax({
+                    url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/CartItem/Delete?id=' + id,
+                    type: 'DELETE',
+                    headers: {
+                        Authorization: 'Bearer ' + '<%=authToken%>'
+                    },
+                    success: function (res) {
+                        if (res.status == "Success") {
+                            toastr.success("Cart Item Removed.", "Success", "success")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    }
+                });
+            } else {
+                // alert('session cart')
+                var sessionCartString = unescape('<%= escape(JSON.stringify(sessionCart)) %>');
+                var sessionCart = JSON.parse(sessionCartString)
+
+                for (var key in sessionCart) {
+                    if (sessionCart.hasOwnProperty(key)) {
+                        //console.log('Item key:', key);
+                        if (key == id) {
+                            const code = 'cart_items';
+                            fetch(`/cart/remove_session_cart_item/${id}`)
+                                .then(response => {
+                                    //console.log(response)
+                                    if (response.ok) {
+                                        //console.log("success")
+                                        toastr.success("Cart Item Removed.", "Success", "success")
+                                        setTimeout(function () {
+                                            window.location.reload();
+                                        }, 1000);
+                                    } else {
+                                        throw new Error('Server response was not ok');
+                                    }
+
+                                })
+                                .catch(error => {
+                                    console.error('Error sending data to server:', error);
+                                });
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        // Remove Cart Items ------------------------------------------------------------------------------------
+
+        function AddCartItemToWishList(id) {
+            //console.log(id);
+        }
+
+        function clearCart(code) {
+            //console.log(code);
+            if ('<%=current_user%>' != "") {
+                // alert('user cart')
+                $.ajax({
+                    url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/CartRecord/ClearTheCart?customerCode=' + code,
+                    type: 'DELETE',
+                    headers: {
+                        Authorization: 'Bearer ' + '<%=authToken%>'
+                    },
+                    success: function (res) {
+                        if (res.status == "Success") {
+                            toastr.success("Clear the cart items.", "Success", "success")
+                            setTimeout(function () {
+                                window.location.pathname = '/'
+                            }, 1000);
+                        }
+                    }
+                });
+            } else {
+                // alert('session cart')
+                fetch(`/cart/clear_session_cart`)
+                    .then(response => {
+                        //console.log(response)
+                        if (response.ok) {
+                            //console.log("success")
+                            toastr.success("Clear the cart items.", "Success", "success")
+                            setTimeout(function () {
+                                window.location.pathname = '/'
+                            }, 1000);
+                        } else {
+                            throw new Error('Server response was not ok');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error sending data to server:', error);
+                    });
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,726 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | <%=sub_title%>
+    </title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="/css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <!-- Toastr  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+</head>
+
+<style>
+    body {
+        font-family: 'Roboto' !important;
+    }
+
+    .ltn__tab-menu-list .nav a.active {
+        background-color: #0a9a73;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        height: 45px;
+        border-radius: 10px;
+        font-family: 'Roboto';
+        margin-bottom: 20px;
+    }
+
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place front is invalid - may break your css so removed */
+        left: 0;
+        right: 0;
+        /* Full width (left and right 0) */
+        top: 0;
+        bottom: 0;
+        /* Full height top and bottom 0 */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+        z-index: 9999;
+        /* Sit on top - higher than any other z-index in your site*/
+    }
+
+</style>
+
+<body>
+
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
+
+        <%- include('includes/header.ejs'); %>
+
+            <div class="ltn__utilize-overlay"></div>
+
+            <hr style="height: 5px; color:#084434; margin: 20px;">
+
+            <!-- WISHLIST AREA START -->
+            <div class="liton__wishlist-area pb-70">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- PRODUCT TAB AREA START -->
+                            <div class="ltn__product-tab-area">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="ltn__tab-menu-list mb-50">
+                                                <div class="nav">
+                                                    <a class="active show" data-bs-toggle="tab"
+                                                        href="#liton_tab_1_1">Dashboard <i class="fas fa-home"></i></a>
+                                                    <a data-bs-toggle="tab" href="#liton_tab_1_2">Orders <i
+                                                            class="fas fa-file-alt"></i></a>
+                                                    <a data-bs-toggle="tab" href="#liton_tab_1_4">Address <i
+                                                            class="fas fa-map-marker-alt"></i></a>
+                                                    <a data-bs-toggle="tab" href="#liton_tab_1_5">Account Details <i
+                                                            class="fas fa-user"></i></a>
+                                                    <a data-bs-toggle="tab" href="#liton_tab_1_3">Change Password<i
+                                                            class="fas fa-key"></i></a>                                                   
+                                                    <a href="/auth/logout">Logout <i
+                                                            class="fas fa-sign-out-alt"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="tab-content">
+                                                <div class="tab-pane fade active show" id="liton_tab_1_1">
+                                                    <div class="ltn__myaccount-tab-content-inner">
+                                                        <p>Hello <strong>
+                                                                <%=current_user.customer.firstName%>&nbsp;
+                                                                    <%=current_user.customer.lastName%>
+                                                            </strong> (not your account ? <small><a
+                                                                    href="/auth/logout"><strong>Log
+                                                                        out</strong></a></small> )</p>
+                                                        <p>From your account dashboard you can view your <span>recent
+                                                                orders</span>, manage your <span>shipping and billing
+                                                                addresses</span>, and <span>edit your password and
+                                                                account details</span>.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="liton_tab_1_2">
+                                                    <div class="ltn__myaccount-tab-content-inner">
+                                                        <!-- <div class="table-responsive"> -->
+                                                            <table class="table table-responsive table-bordered" style="border-color: #f1f1f1;">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Order Code</th>
+                                                                        <th>Delivery Date</th>
+                                                                        <th>Payment Method</th>
+                                                                        <th>Order Status</th>
+                                                                        <th>Payment Status</th>
+                                                                        <th>Total</th>
+                                                                        <th style="text-align: center;">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% if(orderList !=undefined){ for (let i=0; i < orderList.length; i++) { 
+                                                                    
+                                                                        const datetime = new Date(orderList[i].deliveryDate);
+                                                                        const formattedDate = datetime.toLocaleDateString('en-US', {
+                                                                            month: 'short',
+                                                                            day: 'numeric',
+                                                                            year: 'numeric'
+                                                                        });
+                                                                    %>
+                                                                    <tr>
+                                                                        <td><%=orderList[i].orderCode%></td>
+                                                                        <td><%=formattedDate%></td>
+                                                                        <td><%=orderList[i].paymentMethod%></td>
+                                                                        <td><%=orderList[i].order_Status%></td>
+                                                                        <td><%=orderList[i].order_PaymentStatus%></td>
+                                                                        <td style="float: right;"><%=orderList[i].total.toLocaleString('en-US', {
+                                                                            minimumFractionDigits: 2, maximumFractionDigits: 2 })%></td>
+                                                                        <!-- <td style="text-align: center;"><a class="btn btn-success" style="padding: 1px 10px 1px 10px; border-radius: 5px;" href="/cart">View More</a></td> -->
+                                                                        <td><button
+                                                                            class="theme-btn-1 btn reverse-color btn-block"
+                                                                            style="padding: 1px 15px 1px 15px; border-radius: 5px; font-size: 14px;"
+                                                                            data-bs-toggle="modal"
+                                                                            data-id="<%=orderList[i].orderCode%>"
+                                                                            data-bs-target="#view_orderInfo"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-placement="top" title=""
+                                                                            data-bs-original-title="View"
+                                                                            id="openOrderInfo">View</button></td>
+                                                                    </tr>
+                                                                    <% } }else{ %>
+                                                                        
+                                                                    <% } %>
+                                                                </tbody>
+                                                            </table>
+                                                        <!-- </div> -->
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="liton_tab_1_3">
+                                                    <div class="ltn__myaccount-tab-content-inner">
+                                                        <form action="#">
+                                                        <fieldset>
+                                                            <legend style="padding: 0px; font-weight: bold;">
+                                                                Change Password</legend><br>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <label>Current password:</label>
+                                                                    <input type="password" id="old_pass">
+                                                                    <label>New password: (Password must contain at least 8 characters.)</label>
+                                                                    <input type="password" id="new_pass1">
+                                                                    <label>Confirm new password: </label>
+                                                                    <input type="password" id="new_pass2">
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                        <div class="btn-wrapper">
+                                                            <button type="button" class="btn theme-btn-1 btn-effect-1 text-uppercase" onclick="updatePassword()">Save Password</button>
+                                                        </div>
+                                                    </form>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="liton_tab_1_4">
+                                                    <div class="ltn__myaccount-tab-content-inner">
+                                                        <p>The following addresses will be used on the checkout page by
+                                                            default.</p>
+                                                        <div class="row">
+                                                            <h4>Billing Addresses: &nbsp;&nbsp;<a
+                                                                    class="ltn__secondary-color" href=""
+                                                                    data-bs-toggle="modal" data-id=""
+                                                                    data-bs-target="#add_address"
+                                                                    data-bs-toggle="tooltip" data-placement="top"
+                                                                    title="" data-bs-original-title="New Address"
+                                                                    id="openAddModal">New Address?</a></h4>
+
+                                                            <hr>
+                                                            <% if(addressList != []) { 
+                                                                for(let i=0; i < addressList.length; i++){ %>
+                                                                <div class="col-md-6 col-12 learts-mb-30"
+                                                                    style="margin-bottom: 40px;">
+                                                                    <h5>Address <%=i+1%>
+                                                                    </h5>
+                                                                    <address>
+                                                                        <span>
+                                                                            <%=addressList[i].address.split(':')[0]%>
+                                                                                ,
+                                                                        </span><br>
+                                                                        <span>
+                                                                            <%=addressList[i].address.split(':')[1]%>
+                                                                                ,
+                                                                        </span><br>
+                                                                        <span>
+                                                                            <%=addressList[i].address.split(':')[2]%>
+                                                                                .
+                                                                        </span><br>
+                                                                        <p>Zip code:
+                                                                            <%=addressList[i].address.split(':')[3]%>
+                                                                        </p>
+                                                                        <p>Mobile: <%=current_user.customer.phone%>
+                                                                        </p>
+                                                                    </address>
+                                                                    <div class="btn-wrapper" style="margin-top: 0px;">
+                                                                        <button
+                                                                            class="theme-btn-1 btn reverse-color btn-block"
+                                                                            style="padding: 10px;;"
+                                                                            data-bs-toggle="modal"
+                                                                            data-id="<%=addressList[i].id%>:<%=addressList[i].address%>"
+                                                                            data-bs-target="#edit_address"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-placement="top" title=""
+                                                                            data-bs-original-title="View"
+                                                                            id="openEditAddModal">Update</button>
+
+                                                                        <a class="theme-btn-1 btn reverse-color btn-block"
+                                                                            style="padding: 10px;;"
+                                                                            onclick="removeAddress('<%=addressList[i].id%>')">Remove</a>
+                                                                    </div>
+                                                                </div>
+                                                                <% } } %>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="liton_tab_1_5">
+                                                    <div class="ltn__myaccount-tab-content-inner">
+                                                        <p>The following information will be used on the checkout page
+                                                            by default.</p>
+                                                        <div class="ltn__form-box">
+                                                                <div class="row mb-50">
+                                                                    <div class="col-md-6">
+                                                                        <label>First name:</label>
+                                                                        <input type="text" id="fname" value="<%=customer.firstName%>">
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label>Last name:</label>
+                                                                        <input type="text" id="lname" value="<%=customer.lastName%>">
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label>DOB:</label>
+                                                                        <%
+                                                                        var dateOnly = ""
+                                                                        if(customer.dateOfBirth != null){
+                                                                            //var customerDateOfBirth = "2022-12-03T09:21:00";
+                                                                            var customerDateOfBirth = customer.dateOfBirth;
+                                                                            dateOnly = customerDateOfBirth.split("T")[0];
+                                                                        }
+                                                                        %>
+                                                                        <input class="form-control" type="date" id="dob" value="<%=dateOnly%>">
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label>Email:</label>
+                                                                        <input type="email" id="email" value="<%=customer.email%>">
+                                                                        <input type="hidden" id="mobile" value="<%=customer.phone%>">
+                                                                    </div>
+                                                                        
+                                                                </div>                                   
+                                                                <div class="btn-wrapper">
+                                                                    <button type="button" onclick="saveProfile()" class="btn theme-btn-1 btn-effect-1 text-uppercase">Save Changes</button>
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- PRODUCT TAB AREA END -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- WISHLIST AREA START -->
+
+
+
+
+            <%- include('includes/footer.ejs'); %>
+
+    </div>
+    <!-- Body main wrapper end -->
+
+    <!-- All JS Plugins -->
+    <script src="/js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+    <!-- Toastr  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+    <script>
+        function removeAddress(id) {
+            //console.log(id);
+            $.ajax({
+                url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/CustomerAddress/Delete?Id=' + id,
+                type: 'DELETE',
+                success: function (res) {
+                    if (res.status == "Success") {
+                        toastr.success("Address Removed.", "Success", "success")
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    }
+                }
+            });
+        }
+
+        // Edit Process 
+        $(document).on("click", "#openEditAddModal", function () {
+            var value = $(this).data('id');
+            $(".modal-body #update_id").val(value.split(':')[0]);
+            $(".modal-body #update_number").val(value.split(':')[1]);
+            $(".modal-body #update_street").val(value.split(':')[2]);
+            $(".modal-body #update_city").val(value.split(':')[3]);
+            $(".modal-body #update_zip").val(value.split(':')[4]);
+            $('#edit_address').modal('show');
+        });
+
+        function updateAddress() {
+            var update_id = $(".modal-body #update_id").val();
+            var update_number = $(".modal-body #update_number").val();
+            var update_street = $(".modal-body #update_street").val();
+            var update_city = $(".modal-body #update_city").val();
+            var update_zip = $(".modal-body #update_zip").val();
+            //console.log(update_id, update_number, update_street, update_city, update_zip)
+            $.ajax({
+                url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/CustomerAddress/Update',
+                type: 'PUT',
+                data: JSON.stringify({
+                    "id": update_id,
+                    "customerCode": "<%=current_user.customer.customerCode%>",
+                    "address": update_number + ":" + update_street + ":" + update_city + ":" + update_zip,
+                    "type": "default"
+                }),
+                contentType: "application/json",
+                success: function (res) {
+                    //console.log(res)
+                    if (res.status == "Success") {
+                        toastr.success("Address Updated.", "Success", "success")
+                        setTimeout(function () {
+                            window.location.reload();                         
+                        }, 1000);
+                    }
+                }
+            });
+
+
+        }
+
+        function btnAddressSave() {
+            var number = $(".modal-body #number").val();
+            var street = $(".modal-body #street").val();
+            var city = $(".modal-body #city").val();
+            var zip = $(".modal-body #zip").val();
+            //console.log(number, street, city, zip)
+
+            if (!number || !street || !city || !zip) {
+                toastr.error('Please fill required fields!', "Error", "error")
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+            } else {
+
+                $.ajax({
+                    url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/CustomerAddress/Insert',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        "customerCode": "<%=current_user.customer.customerCode%>",
+                        "address": number + ":" + street + ":" + city + ":" + zip,
+                        "type": "default"
+                    }),
+                    contentType: "application/json",
+                    success: function (res) {
+                        if (res.status == "Success") {
+                            toastr.success("New Address Added.", "Success", "success")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000); // Refresh the page after 5 seconds
+                        } else {
+                            toastr.error(res.message, "Error", "error")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        }
+                    }
+                });
+            }
+        }
+
+
+        //Order Information Start------------------------------------------------------------------------------
+ 
+         $(document).on("click", "#openOrderInfo", function () {
+            var code = $(this).data('id');
+
+            // Get full order info by order code
+            $.ajax({
+                    url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/CustomerOrder/Select/Order/Full?orderCode='+code,
+                    type: 'GET',
+                    headers: {
+                    'Authorization': 'Bearer ' + '<%=current_user.auth.token%>' 
+                    },
+                    success: function (res) {
+                        if (res.status == "Success") {
+                            var order = res.content;
+                            $(".modal-body #code").val(order.orderCode);
+                            $(".modal-body #status").val(order.order_Status);
+                            $(".modal-body #billing_address").text(order.billingAddress);
+                            var orderItemsHTML = "";
+                            for (let item of order.orderItems) {
+                                orderItemsHTML += '<tr>'+
+                                        '<td style="text-transform: lowercase;">'+item.productName+'</td>'+
+                                        '<td>'+item.quantity+'</td>'+
+                                        '<td style="text-align:right;">'+item.unitPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })+'</td>'+
+                                        '<td style="text-align:right;">'+item.discount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })+'</td>'+
+                                        '<td style="text-align:right;">'+item.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })+'</td>'+
+                                    '</tr>'
+                               
+                            }  
+                            $(".modal-body #orderItems").html(orderItemsHTML)  
+                            if(order.order_Status == 'Cancelled'){
+                                $(".modal-body #cancel_note_lbl").hide();
+                                $(".modal-body #cancel_note").hide();
+                                $(".modal-footer #btnCancel").hide()                             
+                            }else{
+                                $(".modal-body #cancel_note_lbl").show();
+                                $(".modal-body #cancel_note").show();
+                                $(".modal-footer #btnCancel").show()      
+                            }
+                            
+                            $('#view_orderInfo').modal('show');
+
+                        } else {
+                            //console.log("error")
+                        }
+                    }
+            });
+
+           
+        });
+
+
+        //Order Information End------------------------------------------------------------------------------
+
+
+        function saveProfile(){
+            var fname = $("#fname").val();
+            var lname = $("#lname").val();
+            var dob = $("#dob").val();
+            var email = $("#email").val();
+            var mobile = $("#mobile").val();
+            //console.log(fname, lname, dob, email, mobile)
+
+            if (!fname || !lname || !dob || !email) {
+                toastr.error('Please fill required fields!', "Error", "error")
+            } else {
+                $.ajax({
+                    url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/Customer/Update',
+                    type: 'PUT',
+                    headers: {
+                    'Authorization': 'Bearer ' + '<%=current_user.auth.token%>' 
+                    },
+                    data: JSON.stringify({
+                        "phoneNumber": mobile,
+                        "firstName": fname,
+                        "lastName": lname,
+                        "dateOfBirth": dob,
+                        "email": email
+                    }),
+                    contentType: "application/json",
+                    success: function (res) {
+                        if (res.status == "Success") {
+                            toastr.success("Profile updated succussfully.", "Success", "success")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            toastr.error(res.message, "Error", "error")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        }
+                    }
+                });
+            }
+        }
+
+        function updatePassword(){
+            var old_pass = $("#old_pass").val();
+            var new_pass1= $("#new_pass1").val();
+            var new_pass2 = $("#new_pass2").val();
+            var mobile = $("#mobile").val();
+            //console.log(old_pass, new_pass1, new_pass2, mobile)
+
+            if (!old_pass || !new_pass1 || !new_pass2) {
+                toastr.error('Please fill required fields!', "Error", "error")
+            } else if (new_pass1 != new_pass2) {
+                toastr.error('Passwords didn\'t match.Try again!', "Error", "error")
+            } else {
+                $.ajax({
+                    url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/Customer/ChangePassword',
+                    type: 'PUT',
+                    headers: {
+                    'Authorization': 'Bearer ' + '<%=current_user.auth.token%>' 
+                    },
+                    data: JSON.stringify({
+                        "phoneNumber": mobile,
+                        "oldPassword": old_pass,
+                        "newPassword": new_pass1
+                    }),
+                    contentType: "application/json",
+                    success: function (res) {
+                        if (res.status == "Success") {
+                            toastr.success("Password updated succussfully.", "Success", "success")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            toastr.error(res.message, "Password Error. Try again!", "error")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        }
+                    }
+                });
+            }
+        }
+
+        function cancelOrder(){
+            $.ajax({
+                    url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/CustomerOrder/Cancel',
+                    type: 'PUT',
+                    headers: {
+                    'Authorization': 'Bearer ' + '<%=current_user.auth.token%>' 
+                    },
+                    data: JSON.stringify({
+                        "phone": '<%=current_user.customer.phone%>',
+                        "orderCode":  $(".modal-body #code").val(),
+                        "note": $(".modal-body #cancel_note").val()
+                    }),
+                    contentType: "application/json",
+                    success: function (res) {
+                        if (res.status == "Success") {
+                            toastr.success("Order cancelled.","Success")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            toastr.error(res.message)
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        }
+                    }
+                });
+        }
+
+
+    </script>
+
+</body>
+
+</html>
+
+<!-- MODAL AREA START (New Address) -->
+<div class="ltn__modal-area ltn__quick-view-modal-area">
+    <div class="modal fade" id="add_address" tabindex="-1">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="mb-3">New Address</h5>
+                    <form>
+                        <div class="row gx-3">
+                            <div class="col-sm-12 form-group">
+                                <input class="form-control" type="text" id="number" placeholder="House Number"
+                                    required />
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <input class="form-control" type="text" id="street" placeholder="Appartment/Street"
+                                    required />
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <input class="form-control" type="text" id="city" placeholder="City" required />
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <input class="form-control" type="text" id="zip" placeholder="Zip Code" required />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer align-items-center">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" style="padding: 10px;"
+                        onclick="btnAddressSave();">Save Address</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL AREA END -->
+
+<!-- MODAL AREA START (Edit Address) -->
+<div class="ltn__modal-area ltn__quick-view-modal-area">
+    <div class="modal fade" id="edit_address" tabindex="-1">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="mb-3">Edit Billing Address</h5>
+                    <form>
+                        <div class="row gx-3">
+                            <div class="col-sm-12 form-group">
+                                <input type="hidden" id="update_id" />
+                                <input class="form-control" type="text" id="update_number" placeholder="House Number" />
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <input class="form-control" type="text" id="update_street"
+                                    placeholder="Appartment/Street" />
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <input class="form-control" type="text" id="update_city" placeholder="City" />
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <input class="form-control" type="text" id="update_zip" placeholder="Zip Code" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer align-items-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        style="padding: 10px;">Cancel</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" style="padding: 10px;"
+                        onclick="updateAddress()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL AREA END -->
+
+<!-- MODAL AREA START (Edit Address) -->
+<div class="ltn__modal-area ltn__quick-view-modal-area">
+    <div class="modal fade" id="view_orderInfo" tabindex="-1">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="mb-3">Order Details</h5>
+                    <form>
+                        <div class="row gx-3">
+                            <div class="col-sm-12 form-group">
+                                <input type="hidden" id="code" />
+                                <label for="">Billing Address:</label>
+                                <textarea name="" id="billing_address" cols="30" rows="4" style="min-height: 100px !important; margin-bottom: 5px !important;" readonly></textarea>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label for="">Order Status:</label>
+                               <input type="text" name="" id="status" readonly>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label>Order Items:</label>
+                                <table class="table table-bordered table-responsive" style="border-color: #f1f1f1;">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Qty</th>
+                                            <th>Unit Price</th>
+                                            <th>Discount</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="orderItems">                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label id="cancel_note_lbl" >Cancel Order Note:</label>
+                                <textarea name="" id="cancel_note" cols="30" rows="4" style="min-height: 100px !important; margin-bottom: 5px !important;"></textarea>
+                            </div>
+            
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer align-items-center">
+                    <button type="button" class="btn btn-danger" style="padding: 10px;" onclick="cancelOrder()" id="btnCancel" >Cancel Order</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 10px;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL AREA END -->

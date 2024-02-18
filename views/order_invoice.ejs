@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | Invoice</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="/css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <!-- Toastr  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+
+</head>
+<style>
+    body {
+        font-family: 'Roboto';
+    }
+
+    h6, p {
+        padding: 0px;
+        margin: 0px;
+    }
+</style>
+
+<body>
+    <button class="btn theme-btn-1 btn-effect-1 text-uppercase" onclick="myFunc()" 
+    style="float: right; margin-bottom: 50px; margin-right: 50px; padding: 5px 8px; font-size: 15px;">Download</button>
+
+    <div class="container canvas_div_pdf">
+        <div class="template-invoice-wrap mt-xxl-5 p-md-5 p-3">
+            <div class="row">
+                <div class="col-lg-3 col-md-5 order-md-0 order-1">
+                    <img src="/img/logo.png" alt="logo">
+                </div>
+                <div class="col-lg-4 offset-lg-5 offset-md-3 col-md-4 mb-md-0 mb-2">
+                    <h1 class="d-flex justify-content-md-end mb-0" style="margin-top: 40px;">INVOICE</h1>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4 order-md-0 order-1">
+                    <div class="address-wrap">
+                        <h6>Kandy Pharmacy</h6>
+                        <p>25, Kandy Road,</p>
+                        <p>Kadawatha.</p>
+                        <p>0112-926-945</p>
+                        <p>kandypharm@webmail.com</p>
+                    </div>
+                </div>
+                <div class="col-md-5 offset-md-3 mb-4 mb-md-0">
+                    <div class="d-flex justify-content-md-end">
+                        <div class="text-md-end me-3">
+                            <div class="mb-1">Order Code</div>
+                            <div class="mb-1">Invoice Date</div>
+                            <div>Customer Code</div>
+                        </div>
+                        <div class="text-dark">
+                            <div class="mb-1"><%=orderDetails.orderCode%></div>
+                            <div class="mb-1"><%=orderDetails.createdDate.split(' ')[0]%></div>
+                            <div class="mb-1"><%=orderDetails.customerCode%></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin-top: 20px; margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-md-3">
+                    <h6 class="text-uppercase fs-7 mb-2" style="color: grey;">Delivery Address</h6>
+                    <div class="Billto-wrap">
+                        <h6><%=customerDetails.firstName%> <%=customerDetails.lastName%></h6>
+                        <p><%=orderDetails.billingAddress.split(',')[0]%>,</p>
+                        <p><%=orderDetails.billingAddress.split(',')[1]%>,</p>
+                        <p><%=orderDetails.billingAddress.split(',')[2]%></p>
+                        <p><%=customerDetails.phone%></p>
+                    </div>
+                </div>
+            </div><br><br>
+            <div class="table-wrap mt-6">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="thead-primary">
+                            <tr style="background: #0a9a73; color: white;">
+                                <th>Item</th>
+                                <th class="text-end">Quantity</th>
+                                <th class="text-end">Price</th>
+                                <th class="text-end">Discount</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var i=0; i < orderDetails.orderItems.length; i++){ %>
+                            <tr>
+                                <td class="w-70" style="font-size: 15px;"><%=orderDetails.orderItems[i].productName%></td>
+                                <td class="text-end text-dark"><%=orderDetails.orderItems[i].quantity%></td>
+                                <td class="w-15 text-end text-dark">LKR <%=orderDetails.orderItems[i].unitPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2 })%></td>
+                                <td class="text-end text-dark">LKR <%=orderDetails.orderItems[i].discount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2 })%></td>
+                                <td class="w-20 text-end text-dark">LKR <%=orderDetails.orderItems[i].total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2 })%></td>
+                            </tr>
+                            <% } %>
+                           
+                            <tr>
+                                <td colspan="2" rowspan="4" class="border-0"></td>
+                                <td colspan="2">Sub Total</td>
+                                <td class="text-end text-dark">LKR <%=orderDetails.subTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2 })%></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Total Discount</td>
+                                <td class="text-end text-dark">LKR <%=orderDetails.totalDiscount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2 })%></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Shipping Fee</td>
+                                <td class="text-end text-dark">LKR <%=orderDetails.shippingFees.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2 })%></td>
+                            </tr>
+                            <tr class="border-0">
+                                <td colspan="2" class="text-dark border">Total</td>
+                                <td class="text-end text-dark border">LKR <%=orderDetails.total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2 })%></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-12">
+                    <h6>Note to customer :</h6>
+                    <p>Thank you for choosing Kandy Pharmacy for your service. 
+                        Please keep continue shopping with us and experience more discounts!</p>
+                        <p>Concept and Design by : <a href="https://app360.lk/" target="_blank" style="color: rgb(10 154 115); font-weight: bold; margin-right: 50px;">APP360</a><p>
+                </div>               
+            </div><br>
+            
+            <!-- <div class="row">
+                <div class="col-md-12">
+                    <h6>Terms &amp; Conditions :</h6>
+                    <ol class="ps-3">
+                        <li>Please pay within 15 days from the date of invoice, overdue interest @ 14% will be charged
+                            on delayed payments.</li>
+                        <li>Please quote invoice number when remitting funds.</li>
+                    </ol>
+                </div>
+            </div> -->
+
+            
+        </div>
+    </div>
+    
+     <!-- All JS Plugins -->
+     <script src="/js/plugins.js"></script>
+     <!-- Main JS -->
+     <!-- <script src="/js/main.js"></script> -->
+     <!-- jQuery -->
+     <script src="/vendors/jquery/dist/jquery.min.js"></script>
+     <!-- Toastr  -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+ 
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+     <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+     <script>
+ 
+  function myFunc(){
+    //  alert('my func');
+     var HTML_Width = $(".canvas_div_pdf").width();
+		var HTML_Height = $(".canvas_div_pdf").height();
+		var top_left_margin = 15;
+		var PDF_Width = HTML_Width+(top_left_margin*2);
+		var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
+		var canvas_image_width = HTML_Width;
+		var canvas_image_height = HTML_Height;
+		
+		var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
+		
+
+		html2canvas($(".canvas_div_pdf")[0],{allowTaint:true}).then(function(canvas) {
+			canvas.getContext('2d');
+			
+			//console.log(canvas.height+"  "+canvas.width);
+			
+			
+			var imgData = canvas.toDataURL("image/jpeg", 1.0);
+			var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+		    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
+			
+			
+			for (var i = 1; i <= totalPDFPages; i++) { 
+				pdf.addPage(PDF_Width, PDF_Height);
+				pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+			}
+			
+		    pdf.save("invoice-"+"<%=orderDetails.orderCode%>"+".pdf");
+        }); 
+             
+  }
+     </script>
+
+
+</body>
+
+</html>

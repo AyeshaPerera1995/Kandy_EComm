@@ -1,0 +1,380 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | <%=sub_title%>
+    </title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="/css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <!-- Toastr  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+</head>
+
+<style>
+    body {
+        font-family: 'Roboto';
+    }
+
+    .contact-form-box {
+        padding: 0px !important;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        height: 45px;
+        border-radius: 10px;
+        font-family: 'Roboto';
+    }
+
+    .checkbox-inline input[type="checkbox"],
+    .checkbox-inline label {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .form-check-input:checked {
+        background-color: #0a9a73;
+        border-color: #0a9a73;
+    }
+
+    @media (max-width: 767px) {
+        #txtOtpMobile {
+            margin-bottom: 10px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        #btnSendOtp {
+            margin-bottom: 10px;
+        }
+    }
+
+    .disabled_href {
+        color: #a8bdb7 !important;
+        font-weight: bold !important;
+        cursor: not-allowed !important;
+    }
+    .enabled_href {
+        color: #0a9a73 !important; 
+        font-weight: bold !important; 
+        text-decoration: underline !important;
+        cursor: pointer !important;
+    }
+</style>
+
+<body>
+
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
+
+        <%- include('includes/header.ejs'); %>
+
+            <div class="ltn__utilize-overlay"></div>
+
+            <hr style="height: 5px; color:#084434; margin: 20px;">
+
+            <!-- LOGIN AREA START -->
+            <div class="ltn__login-area pb-30">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="section-title-area text-center">
+                                <h1 class="section-title">Sign In To Your Account</h1>
+                                <p>If you have an account with us, log in using your Mobile. Explore more...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="account-login-inner">
+                                <div class="checkbox-inline">
+                                    <input type="radio" class="form-check-input radioPassword" name="type" id="type" value="1" checked>
+                                    <label for="option2">Using Password</label>
+                                    <input type="radio" class="form-check-input radioOtp" name="type" id="type" value="0">
+                                    <label for="option1">Using OTP</label>
+                                </div>
+                                <br>
+                                <form action="/auth/login" method="POST"
+                                    class="ltn__form-box contact-form-box password_section" id="formPasswordLogin">
+
+                                    <div>
+                                        <input type="hidden" name="log_type" />
+                                        <input type="text" name="email" placeholder="Enter Mobile Number *">
+                                        <input type="password" name="password" placeholder="Your Password *">
+                                    </div>
+                                    <input type="submit" style="display: none;" />
+                                </form>
+
+                                <form action="/auth/login" method="POST"
+                                    class="ltn__form-box contact-form-box otp_section" id="formOTPLogin">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <input type="hidden" name="log_type" />
+                                                    <input type="hidden" name="password" />
+                                                    <input type="text" name="email" placeholder="Enter Mobile Number *" value="<%=mobile%>"
+                                                        id="txtOtpMobile">
+                                                </div>
+                                                <div class="col-md-4" style="margin-top: 10px;">
+                                                    <a id="btnSendOtp" class="sendCodeHref enabled_href">Send code</a>
+                                                </div>
+                                            </div>
+                                            <div class="auth-input-wrapper d-flex align-items-center"
+                                                style="margin-bottom: 20px;">
+                                                <input type="text" class="form-control" id="one" maxlength="1"
+                                                    style="width: 50px; margin-right: 40px; margin-bottom: 5px; padding: 10px; text-align: center;"
+                                                    oninput="moveToNextField(event)">
+                                                <input type="text" class="form-control" id="two" maxlength="1"
+                                                    style="width: 50px; margin-right: 40px; margin-bottom: 5px; padding: 10px; text-align: center;"
+                                                    oninput="moveToNextField(event)">
+                                                <input type="text" class="form-control" id="three" maxlength="1"
+                                                    style="width: 50px; margin-right: 40px; margin-bottom: 5px; padding: 10px; text-align: center;"
+                                                    oninput="moveToNextField(event)">
+                                                <input type="text" class="form-control" id="four" maxlength="1"
+                                                    style="width: 50px; margin-right: 40px; margin-bottom: 5px; padding: 10px; text-align: center;"
+                                                    oninput="moveToNextField(event)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="submit" style="display: none;" />
+                                </form>
+
+                                <div class="btn-wrapper mt-0">
+                                    <button class="theme-btn-1 btn btn-block" id="btnLogin">SIGN IN</button>
+                                </div>
+                                <div class="go-to-btn mt-20">
+                                    <a href="/auth/forgot_password"><small>FORGOTTEN YOUR PASSWORD?</small></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="account-create text-center pt-10">
+                                <h4>DON'T HAVE AN ACCOUNT?</h4>
+                                <p>Add items to your wishlistget personalised recommendations <br>
+                                    check out more quickly track your orders register</p>
+                                <div class="btn-wrapper">
+                                    <a href="/auth/register" class="theme-btn-1 btn black-btn">CREATE ACCOUNT</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- LOGIN AREA END -->
+
+            <%- include('includes/footer.ejs'); %>
+
+    </div>
+    <!-- Body main wrapper end -->
+
+    <!-- All JS Plugins -->
+    <script src="/js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+    <!-- jQuery -->
+    <script src="/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Toastr  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script>
+        $(document).ready(function () {
+            if('<%=mobile%>' == 1 || '<%=mobile%>' == ""){
+                $('.radioOtp').prop('checked', false)
+                $('.radioPassword').prop('checked', true)
+                $('.otp_section').hide();
+                $('.password_section').show();
+                $("input[name='log_type']").val("1");
+
+            }else{               
+                $('.radioOtp').prop('checked', true)
+                $('.radioPassword').prop('checked', false)
+                $('.otp_section').show();
+                $('.password_section').hide();
+                $("input[name='log_type']").val("0");
+                $(".sendCodeHref").hide()
+            }
+           
+
+            $("input[name=type]").change(function () {
+                var value = $("input[name=type]:checked").val();
+                //console.log(value);
+                if (value == 1) {
+                    $('.otp_section').hide();
+                    $('.password_section').show();
+                    $("input[name='log_type']").val("1");
+                } else if (value == 0) {
+                    $('.otp_section').show();
+                    $('.password_section').hide();
+                    $("input[name='log_type']").val("0");
+                }
+            });
+
+        });
+
+        var inputField = document.getElementById("txtOtpMobile");
+        function validateInput() {
+            $(".sendCodeHref").attr("href", "");
+            var enteredValue = inputField.value;
+            var numericValue = enteredValue.replace(/\D/g, "");
+
+            if (numericValue.length === 10) {
+                //console.log("Input has 10 numbers!");
+                // inputField.disabled = true;
+                // $(".sendCodeHref").attr("href", "/auth/send_code/" + numericValue);
+               
+            } else if (numericValue.length > 10){
+                // Enable the input field if it doesn't have 10 numbers
+                toastr.error(
+                    'Invalid input !', 'ERROR',
+                    { timeOut: 2000, fadeOut: 2000, }
+                );
+                inputField.disabled = false;
+                $(".sendCodeHref").attr("href", "");
+
+            }
+        }
+        inputField.addEventListener("input", validateInput);
+
+        const sendCodeBtn = document.getElementById('btnSendOtp');
+            sendCodeBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                var mobile = $("#txtOtpMobile").val()
+                //console.log(mobile)
+            $.ajax({
+                url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/MobileVarificationMaster/'+mobile,
+                type: 'GET',
+                headers: {
+                    'Accept': 'text/plain'
+                },
+                json: true,
+                success: function (res) {
+                  //console.log(res)
+                  if(res.status == 'Success' && res.message == 'User Already Exists'){
+                    // This user Has an account in POS, and sent OTP for login.
+                    document.getElementById("btnSendOtp").classList.remove("enabled_href");
+                    document.getElementById("btnSendOtp").classList.add("disabled_href");
+                    toastr.success('OTP sent successfully.', 'OTP Verification');
+                    $(".sendCodeHref").text("Sent")                   
+                  }
+                  else if(res.status == 'Fail' && res.message == 'User Already Exists'){
+                    // This user Has an account in Ecom and need to send the OTP using filter 0, /api/ECommerce/Customer/Login
+                    $.ajax({
+                      url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/Customer/Login?filter=0',
+                      type: 'POST',
+                      data: JSON.stringify({
+                        "userName": "string",
+                        "password": "string",
+                        "employeeBarcode": "string",
+                        "phone": mobile,
+                        "otpCode": "string",
+                        "cartItems": []
+                      }),
+                      contentType: "application/json",
+                      success: function (res) {
+                        if(res.status == 'Success'){
+                          document.getElementById("btnSendOtp").classList.remove("enabled_href");
+                          document.getElementById("btnSendOtp").classList.add("disabled_href");
+                          toastr.success('OTP sent successfully.', 'OTP Verification');
+                          $(".sendCodeHref").text("Sent")
+                        }else{
+                          //console.log("error")
+                        }
+                      }
+                    })
+                    
+                  }
+                  else if(res.status == 'Success' && res.message == 'Successful'){
+                   // New user registration and proceed with normal process
+                    //console.log("New Account creation")
+                    toastr.info(
+                        "You don't have an account in the System. Please proceed with the Registration.", 'Need to cerate an Account.', { timeOut: 2000, fadeOut: 2000,
+                        onHidden: function () {
+                            window.location.href = '/auth/register';
+                        }
+                    } 
+                    );
+                  }
+
+                  else{
+                    toastr.error(
+                        'OTP Error. Please try again !', 'ERROR',
+                        { timeOut: 2000, fadeOut: 2000, }
+                    );
+                  }
+                }
+            })            
+        })
+
+        $("#btnLogin").click(function () {
+            var value = $("input[name=type]:checked").val();
+            var mobile = ""
+            var pass_otp = ""
+
+            if (value == 1) { // using password
+                mobile = $("input[name='email']").val();
+                pass_otp = $("input[name='password']").val();
+
+                if (!mobile || !pass_otp) {
+                    toastr.error(
+                        'Please fill required fields !', 'ERROR',
+                        { timeOut: 2000, fadeOut: 2000, }
+                    );
+                } else {
+                    //console.log('in submit password login')
+                    $("#formPasswordLogin").submit();
+                }
+
+            } else if (value == 0) {  // using OTP
+                mobile = $("#txtOtpMobile").val();
+                const one = $("#one").val(); const two = $("#two").val(); const three = $("#three").val(); const four = $("#four").val();
+                pass_otp = one + two + three + four
+                //console.log(mobile,one,two,three,four)
+                if (!mobile || !one || !two || !three || !four) {
+                    //console.log('in otp')
+                    toastr.error(
+                        'Please fill required fields !', 'ERROR',
+                        { timeOut: 2000, fadeOut: 2000, }
+                    );
+                } else {
+                    //console.log('in submit otp login')
+                    $("input[name='password']").val(pass_otp);
+                    $("#formOTPLogin").submit();
+                }
+
+            }
+
+        });
+
+        function moveToNextField(event) {
+            const input = event.target;
+            const maxLength = parseInt(input.getAttribute('maxlength'));
+
+            if (input.value.length === maxLength) {
+                const nextInput = input.nextElementSibling;
+                if (nextInput !== null) {
+                    nextInput.focus();
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

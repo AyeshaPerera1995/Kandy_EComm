@@ -1,0 +1,115 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | Confirm Order</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="/css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <!-- Toastr  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+</head>
+
+<style>
+    body {
+        font-family: 'Roboto';
+    }
+
+    .contact-form-box {
+        padding: 0px !important;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        height: 45px;
+        border-radius: 10px;
+        font-family: 'Roboto';
+    }
+
+    .checkbox-inline input[type="checkbox"],
+    .checkbox-inline label {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .form-check-input:checked {
+        background-color: #0a9a73;
+        border-color: #0a9a73;
+    }
+
+    #container-box {
+        background-color: aliceblue;
+        padding: 50px;
+        border-radius: 10px;
+    }
+</style>
+
+<body>
+
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
+
+        <!-- LOGIN AREA START -->
+        <div class="ltn__login-area pb-30 pt-80">
+            <div class="container" id="container-box">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title-area text-center">
+                            <h1 class="section-title">Your order has been received.</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="account-create text-center pt-10">
+                            <h3>Thank you for your purchase !</h3>
+                            <img src="/img/confirm_status.jpg" width="100" height="100" />
+                            <p>Your order ID is : <b>
+                                    <%=orderId%>
+                                </b></p>
+                            <p>You will receive an order confirmation message with details of your order.</p>
+                            <div class="btn-wrapper">
+                                <a href="/" class="theme-btn-1 btn black-btn">CONTINUE SHOPPING</a>
+                            </div>
+                            <br>
+                            <a style="float: right; padding: 10px; font-size: 15px; border-radius: 5px;"
+                                href="/checkout/order_invoice/<%=orderId%>" target="_blank">DOWNLOAD INVOICE</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- LOGIN AREA END -->
+
+    </div>
+    <!-- Body main wrapper end -->
+
+    <!-- All JS Plugins -->
+    <script src="/js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+    <!-- jQuery -->
+    <script src="/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Toastr  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+</body>
+
+</html>

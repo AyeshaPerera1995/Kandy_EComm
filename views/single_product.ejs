@@ -1,0 +1,567 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | <%=sub_title%>
+    </title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="/css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <!-- Toastr  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<style>
+    body {
+        font-family: 'Roboto';
+    }
+
+     /* Disble the cart link  */
+     .disabled-link {
+        cursor: not-allowed;
+        pointer-events: none;
+        color: #cbc6c6
+    }
+
+    .cart-plus-minus,
+    .dec.qtybutton,
+    .inc.qtybutton {
+        cursor: pointer;
+    }
+
+    .cart-plus-minus {
+        border-radius: 5px;
+    }
+
+    pre {
+        white-space: pre-wrap;
+    }
+</style>
+
+<body>
+
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
+
+        <%- include('includes/header.ejs'); %>
+
+            <div class="ltn__utilize-overlay"></div>
+
+            <hr style="height: 5px; color:#084434; margin: 20px;">
+
+            <!-- SHOP DETAILS AREA START -->
+            <div class="ltn__shop-details-area pb-85">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-12">
+                            <div class="ltn__shop-details-inner mb-60">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="ltn__shop-details-img-gallery">
+                                            <div class="ltn__shop-details-large-img">
+                                                <% var imgList=product.imageURLList + " " ; var
+                                                    imgSplit=imgList.split(','); for(var i=0; i < imgSplit.length; i++){
+                                                    %>
+                                                    <div class="single-large-img" style="border: #f3f5f7;">
+                                                        <a href="https://storage.googleapis.com/products_bucket_1/<%=imgList.split(',')[i]%>"
+                                                            data-rel="lightcase:myCollection">
+                                                            <img src="https://storage.googleapis.com/products_bucket_1/<%=imgList.split(',')[i]%>"
+                                                                alt="Image" style="object-fit: contain; width: 350px; height: 350px;border: 1px solid #e5e7e7;">
+                                                        </a>
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                            <div class="ltn__shop-details-small-img slick-arrow-2">
+                                                <% for(var i=0; i < imgSplit.length; i++){ %>
+                                                    <div class="single-small-img">
+                                                        <img src="https://storage.googleapis.com/products_bucket_1/<%=imgList.split(',')[i]%>"
+                                                            alt="Image" height="80">
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="modal-product-info shop-details-info pl-0">
+                                            <div class="product-ratting">
+                                                <ul>
+                                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                    <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                                    <li><a href="#"><i class="far fa-star"></i></a></li>
+                                                    <!-- <li class="review-total"> <a href="#"> ( 95 Reviews )</a></li> -->
+                                                </ul>
+                                            </div>
+                                            <h4>
+                                                <%=product.name.toUpperCase()%>
+                                            </h4>
+                                            <div class="product-price">
+                                                <% if(product.unitSellingPrice !=null){ 
+                                                    var price=product.unitSellingPrice;
+                                                    var sellPriceWithDiscount;
+                                                    var old_price_visible = "hidden"
+                                                    sellPrice = price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); } 
+
+                                                    const currentDate = new Date().toISOString().replace(/T/, ' ').replace(/Z/, ' ') 
+                                                    
+                                                    if(product.discountPercentage != 0 && product.discountPercentage != null && (product.discountTo > currentDate)){
+                                                        var discount = (price * product.discountPercentage)/100;
+                                                        old_price_visible = ""
+                                                        sellPriceWithDiscount = (price - discount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                                    }else{
+                                                        old_price_visible = "hidden"
+                                                        sellPriceWithDiscount = price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                                    }
+
+                                                %>
+                                                    <span style="font-size: 35px;">LKR <%=sellPriceWithDiscount%></span>
+                                                    <del style="font-size: 20px; color: #ff0000e0;" <%=old_price_visible%>>LKR <%=sellPrice%></del>
+                                            </div>
+                                            <% if(product.currentStock !=0){ %>
+                                                <span style="font-size: 16px;" id="available_stock_tag">Availability
+                                                    :&nbsp;&nbsp;</span><span id="stock"></span>
+                                                <% } else { %>
+                                                    <span style="color: red; font-weight: bold; font-size: 15px;"
+                                                        id="out_of_stock_tag">Out of Stock</span>
+                                                    <% } %>
+                                                        <div class="ltn__product-details-menu-2">
+                                                            <ul>
+                                                                <!-- <li>
+                                                                    <div class="cart-plus-minus">
+                                                                        <input type="text" value="1" name="qtybutton"
+                                                                            id="qtybutton" class="cart-plus-minus-box">
+                                                                    </div>
+                                                                </li> -->
+                                                                <li>
+                                                                    <div class="cart-plus-minus">
+                                                                        <div class="dec qtybutton">-</div>
+                                                                        <input type="text" value="1" name="qtybutton" id="qtybutton"
+                                                                            class="cart-plus-minus-box">
+                                                                        <div class="inc qtybutton">+</div>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+
+                                                                    <a href="#"
+                                                                        class="theme-btn-1 btn btn-effect-1 cartHref"
+                                                                        onclick="addToCart();">
+                                                                        <i class="fas fa-shopping-cart"></i>
+                                                                        <span>ADD TO CART</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="ltn__product-details-menu-3">
+                                                            <ul>
+                                                                <li>
+                                                                    <a href="" class="wishHref"
+                                                                        onclick="addToWishList()">
+                                                                        <i class="far fa-heart"></i>
+                                                                        <span>Add to Wishlist</span>
+                                                                    </a>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="ltn__safe-checkout">
+                                                            <h5>Guaranteed Safe Checkout</h5>
+                                                            <img src="/img/icons/payment-2.png" alt="Payment Image">
+                                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ltn__shop-details-tab-inner ltn__shop-details-tab-inner-2">
+                                <div class="ltn__shop-details-tab-menu">
+                                    <div class="nav">
+                                        <a class="active show" data-bs-toggle="tab"
+                                            href="#liton_tab_details_1_1">Description</a>
+                                        <!-- <a data-bs-toggle="tab" href="#liton_tab_details_1_2" class="">Reviews</a> -->
+                                    </div>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade active show" id="liton_tab_details_1_1">
+                                        <div class="ltn__shop-details-tab-content-inner">
+                                            <h4 class="title-2">More Details...</h4>
+                                            <div id="geek">
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar">
+
+                                <div class="widget ltn__top-rated-product-widget">
+                                    <h4 class="ltn__widget-title ltn__widget-title-border">Top Rated Products</h4>
+                                    <ul>
+                                        <% 
+                                        if(bestSellingProducts != null || bestSellingProducts != undefined){
+                                        for(var i=0; i < bestSellingProducts.length; i++){
+                                            
+                                        var pro_name = bestSellingProducts[i].ProductName;  
+                    
+                                        var imgList=bestSellingProducts[i].ProductImages + " " ; 
+                                        var image=imgList.split(',')[0]; 
+                                        var old_price_visible = "hidden"
+
+                                        var sellPriceWithDiscount = 0;
+                                        var sellPrice = bestSellingProducts[i].StockSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                        const currentDate = new Date().toISOString().replace(/T/, ' ').replace(/Z/, ' ') 
+                                        if(bestSellingProducts[i].DiscountPrecentage != 0 && (bestSellingProducts[i].discountTo > currentDate)){
+                                            var discount = (bestSellingProducts[i].StockSellingPrice * bestSellingProducts[i].DiscountPrecentage)/100;
+                                            old_price_visible = ""
+                                            sellPriceWithDiscount = (bestSellingProducts[i].StockSellingPrice - discount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                        }else{
+                                            old_price_visible = "hidden"
+                                            sellPriceWithDiscount = bestSellingProducts[i].StockSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                        }
+                                        
+                                        %>
+                                        <li>
+                                            <div class="top-rated-product-item clearfix">
+                                                <div class="top-rated-product-img" style="border: 1px solid #efeded;">
+                                                    <% if(bestSellingProducts[i].ProductImages != null) { %>
+                                                        <a href="/product/single_product/<%=bestSellingProducts[i].StockId%>"><img src="https://storage.googleapis.com/products_bucket_1/<%=image%>" width="90" height="90" style="object-fit: contain;" alt="Image"></a>
+                                                    <% }else{ %>
+                                                        <a href="/product/single_product/<%=bestSellingProducts[i].StockId%>"><img src="/img/Default2.png" width="90" height="90" style="object-fit: contain" alt="Image"></a>
+                                                    <% } %>
+                                                </div>
+                                                <div class="top-rated-product-info">
+                                                    <div class="product-ratting">
+                                                        <ul>
+                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <h6 class="product-title"><a href="/product/single_product/<%=bestSellingProducts[i].StockId%>"><%=pro_name%></a></h6>
+                                                    <div class="product-price">
+                                                        <span>LKR <%=sellPriceWithDiscount%></span>
+                                                        <del <%=old_price_visible%> style="color: #ff0000e0;">LKR <%=sellPrice%></del>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <% } }%>
+                                    </ul>
+                                </div>
+
+                                <% if (bannerFive.location=='Single Product Page' ){ %>
+                                    <div class="widget ltn__banner-widget">
+                                        <a href="<%=bannerFive.redirectURL%>"><img
+                                                src="https://storage.googleapis.com/banners_bucket_2/<%=bannerFive.imageURL%>"
+                                                alt="Banner Image"></a>
+                                    </div>
+                                    <% } %>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SHOP DETAILS AREA END -->
+
+            <!-- PRODUCT SLIDER AREA START -->
+            <div class="ltn__product-slider-area ltn__product-gutter pb-70">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="section-title-area ltn__section-title-2">
+                                <h4 class="title-2">Related Products<span>.</span></h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ltn__related-product-slider-one-active slick-arrow-1">
+
+                        <% for(var i=0; i < relatedProducts.length; i++){ 
+
+                            var imgList=relatedProducts[i].imageURLList + " " ; 
+                            var image=imgList.split(',')[0]; 
+                            var pres_visible, outofstock_visible, disable_cart, discount_visible = "";
+                            var old_price_visible = "hidden"
+
+                            var sellPriceWithDiscount = 0;
+                            var sellPrice = relatedProducts[i].unitSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                            if (relatedProducts[i].needsPrescription != true) {
+                                pres_visible = "hidden"
+                            }
+                            if (relatedProducts[i].currentStock != 0) {
+                                outofstock_visible = "hidden"
+                            } else {
+                                pres_visible = "hidden"
+                                disable_cart = 'class ="disabled-link"'
+                            }
+
+                        var discount = 0;
+                        const currentDate = new Date().toISOString().replace(/T/, ' ') .replace(/Z/, ' ')
+
+                        if(relatedProducts[i].discountPercentage != 0 && (relatedProducts[i].discountTo > currentDate)){
+                            discount = (relatedProducts[i].unitSellingPrice * relatedProducts[i].discountPercentage)/100;
+                            old_price_visible = ""
+                            sellPriceWithDiscount = (relatedProducts[i].unitSellingPrice - discount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        }else{
+                            discount_visible = "hidden"
+                            old_price_visible = "hidden"
+                            sellPriceWithDiscount = relatedProducts[i].unitSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        }
+                        %>
+                        <div class="col-lg-12">
+                            <div class="ltn__product-item ltn__product-item-3 text-center">
+                                <div class="product-img">
+                                    <a href="/product/single_product/<%=relatedProducts[i].stockId%>"><img
+                                            src="https://storage.googleapis.com/products_bucket_1/<%=image%>" style="object-fit: contain; width: 200px; height:200px;margin-left: 30px;"
+                                            alt="#"></a>
+                                    <div class="product-badge">
+                                        <ul>
+                                            <li style="font-size: 15px;font-style:normal;margin-right: 180px;background: #0a9a73;width: 58px;height: 57px;border-radius: 30px 30px 0;padding: 8px 10px;color: #fff;text-align: center;line-height: 22px;" <%=discount_visible%> ><%=relatedProducts[i].discountPercentage%>% OFF</li>
+                                            <li style="font-style: normal; font-weight: normal; font-size: 13px;  border-radius: 3px; margin-top: 0;float: right;" class="sale-badge" <%=pres_visible%> >Prescription</li>
+                                            <li style="font-style: normal; font-weight: normal; font-size: 13px; background-color: #cb1e1e; border-radius: 3px; margin-top: 0;float: right;" <%=outofstock_visible%> >Out of Stock</li>
+                                        </ul>
+                                    </div>
+                                    <!-- <div class="product-hover-action">
+                                        <ul>
+                                            <li>
+                                                <a href="#" title="Quick View" data-bs-toggle="modal"
+                                                    data-bs-target="#quick_view_modal">
+                                                    <i class="far fa-eye"></i>
+                                                </a>
+                                            </li>
+                                            <li <%=disable_cart%>>
+                                                <a href="#" title="Add to Cart" data-bs-toggle="modal"
+                                                    data-bs-target="#add_to_cart_modal">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </a>
+                                            </li>
+                                            <li <%=disable_cart%>>
+                                                <a onclick="addToCart()" class="cartHref" style="cursor:pointer;"><i class="fas fa-shopping-cart"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" title="Wishlist" data-bs-toggle="modal"
+                                                    data-bs-target="#liton_wishlist_modal">
+                                                    <i class="far fa-heart"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div> -->
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-ratting">
+                                        <ul>
+                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                            <li><a href="#"><i class="far fa-star"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <h2 style="font-size: 13px;" class="product-title"><a href="/product/single_product/<%=relatedProducts[i].stockId%>">
+                                            <%=relatedProducts[i].name.toUpperCase()%>
+                                        </a>
+                                    </h2>
+                                    <div class="product-price">
+                                        <span style="font-style: normal; font-size: 15px; font-weight: bold;">LKR <%=sellPriceWithDiscount%></span>
+                                        <del <%=old_price_visible%> style="font-size:15px;font-style:normal;color: #ff0000e0;">LKR <%=sellPrice%></del>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <% } %>
+
+                    </div>
+                </div>
+            </div>
+            <!-- PRODUCT SLIDER AREA END -->
+
+
+
+
+            <%- include('includes/footer.ejs'); %>
+
+    </div>
+    <!-- Body main wrapper end -->
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js"></script> -->
+    <!-- Toastr  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+    <!-- All JS Plugins -->
+    <script src="/js/plugins.js"></script>
+
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+
+    <!-- Tinymce JS -->
+    <script src="/tinymce/tinymce.min.js"></script>
+    <script src="/js/tinymce-data.js"></script>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/html-react-parser@latest/dist/html-react-parser.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var stockId = "<%=product.stockId%>";
+            $.ajax({
+                url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/EcomProduct/GetStockDetailsWithStockId?Id='+stockId,
+                type: 'GET',
+                success: function (res) {
+                    var geek = $("#geek");
+                    geek.append(res.content.description);  
+                }
+            })
+
+            var currentStock = parseFloat("<%=product.currentStock%>");
+            // check if this is OutOfStock or not
+            if (currentStock == 0) {
+                $('.ltn__product-details-menu-2').hide();
+            }
+           
+            if (currentStock > 0 && currentStock <= 10) {
+                $("#stock").text("1+");
+            } else if (currentStock > 10 && currentStock <= 20) {
+                $("#stock").text("10+");
+            } else if (currentStock > 20 && currentStock <= 30) {
+                $("#stock").text("20+");
+            } else if (currentStock > 30 && currentStock <= 40) {
+                $("#stock").text("30+");
+            } else if (currentStock > 40 && currentStock <= 50) {
+                $("#stock").text("40+");
+            } else if (currentStock > 50 && currentStock <= 60) {
+                $("#stock").text("50+");
+            } else if (currentStock > 60 && currentStock <= 70) {
+                $("#stock").text("60+");
+            } else if (currentStock > 70 && currentStock <= 80) {
+                $("#stock").text("70+");
+            } else if (currentStock > 80 && currentStock <= 90) {
+                $("#stock").text("80+");
+            } else if (currentStock > 90 && currentStock <= 100) {
+                $("#stock").text("90+");
+            } else if (currentStock > 100 && currentStock <= 200) {
+                $("#stock").text("100+");
+            } else if (currentStock > 200 && currentStock <= 300){
+                $("#stock").text("200+");
+            } else if (currentStock > 300 && currentStock <= 400){
+                $("#stock").text("300+");
+            } else if (currentStock > 400 && currentStock <= 500){
+                $("#stock").text("400+");
+            } else if (currentStock > 500 && currentStock <= 600){
+                $("#stock").text("500+");
+            } else if (currentStock > 600 && currentStock <= 700){
+                $("#stock").text("600+");
+            } else if (currentStock > 700 && currentStock <= 800){
+                $("#stock").text("700+");
+            } else if (currentStock > 800 && currentStock <= 900){
+                $("#stock").text("800+");
+            } else if (currentStock > 900 && currentStock <= 1000){
+                $("#stock").text("900+");
+            } else if (currentStock > 1000 && currentStock <= 2000){
+                $("#stock").text("1000+");
+            } else if (currentStock > 2000){
+                $("#stock").text("2000+");
+            }
+
+        // Set the Input stock limit -----------------------------------------------------------------------
+         const input = document.querySelector('#qtybutton');
+                    input.addEventListener('keypress', (event) => {
+                        let value = parseFloat(event.target.value + event.key);
+                        if (value > currentStock) {
+                            event.preventDefault();
+                        }
+                    });
+        // Set the Input stock limit -----------------------------------------------------------------------
+
+        $(".qtybutton").on("click", function () {
+            var $button = $(this);
+            var oldValue = $button.parent().find("input").val();
+            if ($button.text() == "+") {
+                //console.log("click + single pro page: " + oldValue)
+                var current_stock = parseFloat('<%=product.currentStock%>');
+                //console.log("current_stock: " + current_stock)
+                if (oldValue < current_stock) {
+                    var newVal = parseFloat(oldValue) + 1;
+                } else {
+                    //console.log('exceed')
+                    newVal = oldValue;
+                    const element = document.querySelector('.inc.qtybutton');
+                    element.style.pointerEvents = 'none';
+                }
+            }
+            else {
+                const element = document.querySelector('.inc.qtybutton');
+                element.style.pointerEvents = 'auto';
+                if (oldValue > 0) {
+                    var newVal = parseFloat(oldValue) - 1;
+                }
+                else {
+                    newVal = 1;
+                }
+            }
+            $button.parent().find("input").val(newVal);
+        });
+
+        });
+
+
+        // Cart Modal 
+        function addToCart() {
+            var qty = parseFloat($("#qtybutton").val());
+            var id = '<%=product.stockId%>';
+            var code = "single_prduct";
+            //console.log('<%=current_user%>')
+            // if('<%=current_user%>' == ""){
+            //     $(".cartHref").attr("href", "/auth/login");
+            // }else{
+            //console.log(id); //console.log(qty);
+            $(".cartHref").attr("href", "/cart/my_cart/" + id + '&' + code + '&' + qty);
+            toastr.success('Successfully added to the shopping cart.', '');
+
+            // }           
+        }
+
+        // Wish List
+        function addToWishList() {
+            var id = '<%=product.stockId%>';
+            var code = "single_product";
+            //console.log('<%=current_user%>')
+            // if('<%=current_user%>' == ""){
+            //     $(".cartHref").attr("href", "/auth/login");
+            // }else{
+            //console.log(id); //console.log(code);
+            $('#quick_view_modal').modal('hide');
+            $(".wishHref").attr("href", "/cart/wish_list/" + id + '&' + code);
+            toastr.success('Successfully added to the wish list.', '');
+            // }           
+        }
+
+    </script>
+
+</body>
+
+</html>

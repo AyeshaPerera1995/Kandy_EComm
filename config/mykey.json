@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "kandy-ecom-dev",
+  "private_key_id": "e17859e39c4b26b7c6aff09582ced3f746269036",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC7B3x8+x8LI40v\nFatm+pejRgFf0VN83KtQj7LrErO7WfhywXS26cCGHEdSjErvkS1BEusFIJpgP1x/\nQlJqsg+8Kq36Rk3nENWUyw+wPT1Top4FPqUaYe1pzXefsl1DXp6Gikz5KHzyqf/o\n8LakWYFE083rzrCJvpqHZGZGS1HxEHk8oG1ucsgn9FmNhnQiSrZw25VaiQCEaFor\n3paK5EdRBUib2f6X3BIq7GGWc+9hJ38O/8qCjb5ekBgC43QU6xmjCCWSQfCKGhHw\nfNQRPH6/ApHtH7uYEkmsOL1I52PzW9pzjD6HbLCoPUx6olxjjSsMFCMLoISeY8Mk\no2b2MDBbAgMBAAECggEAVLjZ8CWzlNCoen1G9TGsMkaahcSlnKi7pBVMN8dzinmB\nnb47uEYgM8AooOCza11o0hMXSm3P8KyTIoSxH+sETLlKsVZaoMLT9YCc3TmIh9Pg\n4EBV+yMEMIrmVv2t2MBKcGjC4JUyMJzIs8Ui/0UaVUra+6hX+TXR+2YEHHCvMFL/\nHQ4+RjgdoeLqDcyXUme37S+gd+c9j32mm09x8CCgK3kpwx5h2yBvtTI5D2UcVp18\nnTN2IjY6qTD2JY6pGrxA+aw1qwmehWY/lWN9qn4q7XNoe/9gMMsVAubPGAcZ6+Ug\nlfn1DUv3lMUmh5clrTa4H8+rG+qCFqDWBhGqen/smQKBgQDlDo+5Ti6JdxxExbLQ\n2tuu+TdSSbT76KTASELyMKnbPR7O0m8+/1TexdPT4w8GCy0jpjfxuRcXFtmMXvPY\nWgxEqInXIdIT6TboGEo2mdNryOMAuqrU5ot3V2d8FvRMhh/M/HgOykLsfr9DMr7P\nRzB7suQUORgooTsE9/Lh0IT+aQKBgQDRB1/W/WMI/6nkSVHFojw2371tZYTMH/E7\n6gyNLnBzy2t238EILmD7/ol3nada7lrfxNLWpZ0oLOt8A9pfVZI0ann3TNEICHDH\nBIQLCWgATMUs7GuqA+E4SHZDXYDjCEzTJnBjrIvRIjH0sxcneaKlYlJJyFJjDwgD\nKjr0tBkoIwKBgC/QClAz8aLgKhZw7hKKnLC5dMLIf+7VcQ5yBwdnAQ2yhGvHoVEV\nGzIlOUJRcyFf09xNJgBfEmLPcjnK2DuhEE6En8E4XhGp7Lwl1dfv5CHrnPbaAC7Q\nsOwIYqGUaQpQNPMlACqWLcIP8vyj6xB5W7V2cgWGpXRVs2wmFZztWdWBAoGAUgIC\np+ZhpHYpwVbCrjcoSJ8fQnxBzZP6oPcCVaGSnNuCHfFLWlpX0oXaiQNhVVuOa5xc\n27m+HrUA7nbUhfKcmdPsZgnNOMmW9X3gEDRwiS2VbjqTQvCiu+IyA9v7ZRcsjOrX\nzUM016gC0W4x91rRZPFeN3RQXmzXR+aZmsfN1uECgYANM17P6cE7Pn4EFyE9U7t7\nknLwaOiaqqGglem+FeXSPaVdEV8OhxZ/sd2j3aLHj+ioENPnqLpNgcLU3KDb+Hnp\nLs61nfUMMD3+iyyp/CVPcQ+nC6vBi8ckmUI/QTAWqft+4iubEtGhMc8YKKByBm3S\nII4CLsewmROO49pO2p9v1w==\n-----END PRIVATE KEY-----\n",
+  "client_email": "kandypharmacy-service@kandy-ecom-dev.iam.gserviceaccount.com",
+  "client_id": "117441391311875418169",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kandypharmacy-service%40kandy-ecom-dev.iam.gserviceaccount.com"
+}

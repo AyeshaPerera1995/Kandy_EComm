@@ -1,0 +1,871 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | <%=sub_title%></title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="/css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+     <!-- Toastr  -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+</head>
+
+<style>
+    body {
+        font-family: 'Roboto';
+    }
+
+    .cart-plus-minus, .dec.qtybutton, .inc.qtybutton{
+        cursor: pointer;
+    }
+    .cart-plus-minus{
+        border-radius: 5px;
+    }
+
+    /* Pagination Styles  */
+    html,
+    body {
+        height: 100%;
+    }
+
+    .ltn__product-item-3 .product-info {
+        padding: 0px;
+    }
+
+    *,
+    *::after,
+    *::before {
+        box-sizing: border-box;
+    }
+
+    button {
+        background: none;
+        appearance: none;
+        -webkit-appearance: none;
+        -ms-appearance: none;
+        -moz-appearance: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .page-btn {
+        background: transparent;
+        color: rgb(138, 135, 135);
+        height: 50px;
+        border-radius: 25px;
+        padding: 8px 18px 18px 18px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: background 0.3s ease;
+        margin: 0 5px;
+        border: 2px rgb(223, 221, 221) solid;
+        font-family: 'Roboto';
+        font-weight: bold;
+    }
+
+    .page-btn:first-of-type {
+        margin-left: 0;
+    }
+
+    .page-btn:last-of-type {
+        margin-right: 0;
+    }
+
+    .pagination-buttons {
+        display: flex;
+        align-items: center;
+    }
+
+    .page-btn[class*="-page"] {
+        background: rgb(218, 216, 216);
+        font-size: 1.0em;
+        font-weight: bold;
+    }
+
+    .page-btn.active {
+        background: #0a9a73;
+        color: #fff;
+    }
+
+    .page-btn[disabled] {
+        opacity: 0.5;
+    }
+
+    .page-btn:hover {
+        background: #0a9a73;
+        color: #fff;
+    }
+
+    /* Disble the cart link  */
+    .disabled-link {
+        cursor: not-allowed; 
+        pointer-events: none; 
+        color: #cbc6c6
+    }
+
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place front is invalid - may break your css so removed */  
+        left: 0;
+        right:0; /* Full width (left and right 0) */
+        top: 0;
+        bottom: 0; /* Full height top and bottom 0 */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        z-index: 9999; /* Sit on top - higher than any other z-index in your site*/
+    }
+</style>
+
+<body>
+
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
+
+        <%- include('includes/header.ejs'); %>
+
+            <div class="ltn__utilize-overlay"></div>
+
+            <hr style="height: 5px; color:#084434; margin: 20px;">
+
+
+            <!-- PRODUCT DETAILS AREA START -->
+            <div class="ltn__product-area ltn__product-gutter mb-10">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 order-lg-2 mb-120" id="pagination-holder">
+                            <div class="ltn__shop-options">
+                                <ul>
+                                    <li>
+                                        <div class="ltn__grid-list-tab-menu ">
+                                            <div class="nav">
+                                                <a class="active show" data-bs-toggle="tab"
+                                                    href="#liton_product_grid"><i class="fas fa-th-large"></i></a>
+                                                <a data-bs-toggle="tab" href="#liton_product_list"><i
+                                                        class="fas fa-list"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="showing-product-number text-right">
+                                            <span id="setTotalCount"></span>
+                                        </div>
+                                    </li>
+                                    <!-- <li>
+                                        <div class="short-by text-center">
+                                            <select class="nice-select">
+                                                <option>Default Sorting</option>
+                                                <option>Sort by popularity</option>
+                                                <option>Sort by new arrivals</option>
+                                                <option>Sort by price: low to high</option>
+                                                <option>Sort by price: high to low</option>
+                                            </select>
+                                        </div>
+                                    </li> -->
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane fade active show" id="liton_product_grid">
+                                    <div class="ltn__product-tab-content-inner ltn__product-grid-view">
+                                        <div class="row" id="dataholder_tile">
+                                            <!-- Load Products from innerHTML tile view -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="liton_product_list">
+                                    <div class="ltn__product-tab-content-inner ltn__product-list-view">
+                                        <div class="row" id="dataholder_list">
+                                            <!-- Load Products from innerHTML list view -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="ltn__pagination-area text-center">
+                                <div class="ltn__pagination">
+                                    <ul>
+                                        <li><a href="#"><i class="fas fa-angle-double-left"></i></a></li>
+                                        <li><a href="#">1</a></li>
+                                        <li class="active"><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">...</a></li>
+                                        <li><a href="#">10</a></li>
+                                        <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div> -->
+
+                        </div>
+                        <div class="col-lg-4  mb-120">
+                            <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar">
+                                
+                                <!-- Top Rated Product Widget -->
+                                <div class="widget ltn__top-rated-product-widget">
+                                    <h4 class="ltn__widget-title ltn__widget-title-border">Top Rated Products</h4>
+                                    <ul>
+                                        <% 
+                                        if(bestSellingProducts != null || bestSellingProducts != undefined){
+                                        for(var i=0; i < bestSellingProducts.length; i++){
+                                            
+                                        var pro_name = bestSellingProducts[i].ProductName;  
+                    
+                                        var imgList=bestSellingProducts[i].ProductImages + " " ; 
+                                        var image=imgList.split(',')[0]; 
+                                        var old_price_visible = "hidden"
+
+                                        var sellPriceWithDiscount = 0;
+                                        var sellPrice = bestSellingProducts[i].StockSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                   
+                                        if(bestSellingProducts[i].DiscountPrecentage != 0){
+                                            var discount = (bestSellingProducts[i].StockSellingPrice * bestSellingProducts[i].DiscountPrecentage)/100;
+                                            old_price_visible = ""
+                                            sellPriceWithDiscount = (bestSellingProducts[i].StockSellingPrice - discount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                        }else{
+                                            old_price_visible = "hidden"
+                                            sellPriceWithDiscount = bestSellingProducts[i].StockSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                        }
+                                        %>
+                                        <li>
+                                            <div class="top-rated-product-item clearfix">
+                                                <div class="top-rated-product-img" style="border: 1px solid #efeded;">
+                                                    <% if(bestSellingProducts[i].ProductImages != null) { %>
+                                                        <a href="/product/single_product/<%=bestSellingProducts[i].StockId%>"><img src="https://storage.googleapis.com/products_bucket_1/<%=image%>" alt="Image"></a>
+                                                    <% }else{ %>
+                                                        <a href="/product/single_product/<%=bestSellingProducts[i].StockId%>"><img src="/img/Default2.png" alt="Image"></a>
+                                                    <% } %>
+                                                </div>
+                                                <div class="top-rated-product-info">
+                                                    <div class="product-ratting">
+                                                        <ul>
+                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <h6 class="product-title"><a href="/product/single_product/<%=bestSellingProducts[i].StockId%>"><%=pro_name%></a></h6>
+                                                    <div class="product-price">
+                                                        <span>LKR <%=sellPriceWithDiscount%></span>
+                                                        <del <%=old_price_visible%>>LKR <%=sellPrice%></del>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <% } }%>
+                                    </ul>
+                                </div>
+                               <!-- Banner Widget -->
+                               <% if (bannerFour.location=='Products Page' ){ %>
+                                <div class="widget ltn__banner-widget">
+                                    <a href="<%=bannerFour.redirectURL%>"><img
+                                            src="https://storage.googleapis.com/banners_bucket_2/<%=bannerFour.imageURL%>"
+                                            alt="Banner Image"></a>
+                                </div>
+                                <% } %>
+
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- PRODUCT DETAILS AREA END -->
+
+
+
+
+    <%- include('includes/footer.ejs'); %>
+
+    </div>
+    <!-- Body main wrapper end -->
+
+    <!-- All JS Plugins -->
+    <script src="/js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+     <!-- jQuery -->
+     <script src="/vendors/jquery/dist/jquery.min.js"></script>
+     <!-- Toastr  -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+        <!-- Pagination Part Start -->
+        <script>
+            window.onload = function () {
+                getPageCount();
+            }
+    
+            // ********************************************************************************************************
+            const pageNumbers = (total, max, current) => {
+                  const half = Math.floor(max / 2);
+                  let to = max;
+                  
+                  if(current + half >= total) {
+                    to = total;
+                  } else if(current > half) {
+                    to = current + half ;
+                  }
+                  
+                  let from = to - max;
+                //   //console.log(Array.from({length: max}, (_, i) => (i + 1) + from));
+                  return Array.from({length: max}, (_, i) => (i + 1) + from);
+                }
+    
+    
+            function PaginationButton(totalPages, maxPagesVisible = 5, currentPage = 1) {
+                let pages = pageNumbers(totalPages, maxPagesVisible, currentPage);
+                //console.log('pages: '+pages)
+                let currentPageBtn = null;
+                const buttons = new Map();
+                const disabled = {
+                    // start: () => pages[0] === 1,
+                    prev: () => currentPage === 1,
+                    // end: () => pages.slice(-1)[0] === totalPages,
+                    next: () => currentPage === totalPages
+                }
+                const frag = document.createDocumentFragment();
+                const paginationButtonContainer = document.createElement('div');
+                paginationButtonContainer.className = 'ltn__pagination-area text-center';
+                // paginationButtonContainer.style = 'align-items:center;';
+    
+                //   default page loading 
+                paginationButtonContainer.value = currentPage;
+                loadResults(currentPage);
+    
+                const createAndSetupButton = (label = '', cls = '', disabled = false, handleClick) => {
+                    const buttonElement = document.createElement('button');
+                    if (label == 'prev') {
+                        buttonElement.innerHTML = '<i class="fas fa-angle-double-left"></i>';
+                    }
+                    
+                    else if (label == 'next') {
+                        buttonElement.innerHTML = '<i class="fas fa-angle-double-right"></i>';
+                    }
+                    // else if (label == 'start') {
+                    //     buttonElement.innerHTML = '<i class="ki ki-double-arrow-back"></i>';
+                    // }
+                    // else if (label == 'end') {
+                    //     buttonElement.innerHTML = '<i class="ki ki-double-arrow-next"></i>';
+                    // }
+                    else {
+                        buttonElement.textContent = label;
+                    }
+    
+                    buttonElement.className = `page-btn ${cls}`;
+                    buttonElement.disabled = disabled;
+                    buttonElement.addEventListener('click', e => {
+                        handleClick(e);
+                        this.update();
+                        paginationButtonContainer.value = currentPage;
+                        loadResults(currentPage);
+                        paginationButtonContainer.dispatchEvent(new Event('change'));
+                    });
+    
+                    return buttonElement;
+                }
+    
+                const onPageButtonClick = e => currentPage = Number(e.currentTarget.textContent);
+    
+                const onPageButtonUpdate = index => (btn) => {
+                    btn.textContent = pages[index];
+    
+                    if (pages[index] === currentPage) {
+                        currentPageBtn.classList.remove('active');
+                        btn.classList.add('active');
+                        currentPageBtn = btn;
+                        currentPageBtn.focus();
+                    }
+                };
+    
+                // buttons.set(
+                //     createAndSetupButton('start', 'start-page', disabled.start(), () => currentPage = 1),
+                //     (btn) => btn.disabled = disabled.start()
+                // )
+    
+                buttons.set(
+                    createAndSetupButton('prev', 'prev-page', disabled.prev(), () => currentPage -= 1),
+                    (btn) => btn.disabled = disabled.prev()
+                )
+    
+                pages.map((pageNumber, index) => {
+                    const isCurrentPage = currentPage === pageNumber;
+                    const button = createAndSetupButton(
+                        pageNumber, isCurrentPage ? 'active' : '', false, onPageButtonClick
+                    );
+    
+                    if (isCurrentPage) {
+                        currentPageBtn = button;
+                    }
+    
+                    buttons.set(button, onPageButtonUpdate(index));
+                });
+    
+                buttons.set(
+                    createAndSetupButton('next', 'next-page', disabled.next(), () => currentPage += 1),
+                    (btn) => btn.disabled = disabled.next()
+                )
+    
+                // buttons.set(
+                //     createAndSetupButton('end', 'end-page', disabled.end(), () => currentPage = totalPages),
+                //     (btn) => btn.disabled = disabled.end()
+                // )
+    
+                buttons.forEach((_, btn) => frag.appendChild(btn));
+                paginationButtonContainer.appendChild(frag);
+    
+                this.render = (container = document.getElementById("pagination-holder")) => {
+                    container.appendChild(paginationButtonContainer);
+                }            
+    
+                this.update = (newPageNumber = currentPage) => {
+                    currentPage = newPageNumber;
+                    pages = pageNumbers(totalPages, maxPagesVisible, currentPage);
+                    buttons.forEach((updateButton, btn) => updateButton(btn));
+                }
+    
+                this.onChange = (handler) => {
+                    paginationButtonContainer.addEventListener('change', handler);
+                }
+    
+            }
+    
+            // ********************************************************************************************************
+    
+            function getPageCount() {
+                var page_count = 0;
+                $.ajax({
+                    url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/Search/ProductName?nextPage=1&rowCount=12&value=<%=query%>',
+                    type: 'GET',
+                    success: function (res) {
+                        if(res.content != null){
+                        page_count = Math.ceil(res.content.TotalCount / 12);
+                        }
+                        //console.log('page_count ' + page_count);
+                        if (page_count <= 5) {
+                            const paginationButtons = new PaginationButton(page_count, page_count);
+                            paginationButtons.render();
+                        } else {
+                            const paginationButtons = new PaginationButton(page_count, 5);
+                            paginationButtons.render();
+                        }    
+                    }
+                });      
+            }
+    
+    
+            function loadResults(page) {
+                //console.log("current page: "+page)
+                var code = '<%=query%>'
+                var protext_tile = '';
+                var protext_list = '';
+    
+                $.ajax({
+                    url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/Search/ProductName?nextPage='+page+'&rowCount=12&value=<%=query%>',
+                    type: 'GET',
+                    success: function (res) {
+                        var totalCount = res.content.TotalCount
+                        $("#setTotalCount").text(`Search Results for '${'<%=query%>'}' : 1–12 of ${totalCount} results`)
+
+                        var proObjects = res.content.List;
+                        proObjects.forEach(product => {   
+                             
+                        var pres_visible, outofstock_visible, disable_cart, discount_visible, src = "";
+                        var old_price_visible = "hidden"
+                        var unit = "LKR "
+                        var sellPriceWithDiscount = 0;
+                        var sellPrice = product.UnitSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        if (product.NeedPrescription != true) {
+                            pres_visible = "hidden"
+                        }
+                        if (product.CurrentStock != 0) {
+                            outofstock_visible = "hidden"
+                        } else {
+                            pres_visible = "hidden"
+                            disable_cart = 'class ="disabled-link"'
+                        }
+
+                        if(product.DiscountPercentage != 0){
+                            var discount = (product.UnitSellingPrice * product.DiscountPercentage)/100;
+                            old_price_visible = ""
+                            sellPriceWithDiscount = (product.UnitSellingPrice - discount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        }else{
+                            discount_visible = "hidden"
+                            old_price_visible = "hidden"
+                            sellPriceWithDiscount = product.UnitSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        }   
+                        
+                        var pro_name = product.ProductName;
+
+                        if(product.ProductImage != "") {
+                            src = "https://storage.googleapis.com/products_bucket_1/"+product.ProductImage
+                        }else{
+                           src = "/img/DefaultImg.png"
+                        }
+    
+                        protext_tile = protext_tile +
+                            '<div class="col-xl-4 col-sm-6 col-6">' +
+                            '<div class="ltn__product-item ltn__product-item-3 text-center">' +
+                            '<div class="product-img" style="margin:10px;">' +
+                            '<a href=" /product/single_product/' + product.StockId + '">' +
+                            '<img style="height: 150px;" src="'+src+'" alt="#"></a>' +
+                            '<div class="product-badge">' +
+                            '<ul>'+
+                            '<li style="font-size: 15px;font-style:normal;margin-right: 135px;background: #0a9a73;width: 58px;height: 57px;border-radius: 30px 30px 0;padding: 8px 10px;color: #fff;text-align: center;line-height: 22px;" ' + discount_visible + '>'+product.DiscountPercentage+'% OFF</li>' +
+                            '<li style="font-style: normal; font-weight: normal; font-size: 13px;  border-radius: 3px; margin-top: 0;float: right;" class="sale-badge" ' + pres_visible + '>Prescription</li>' +
+                            '<li style="font-style: normal; font-weight: normal; font-size: 13px; background-color: #cb1e1e; border-radius: 3px; margin-top: 0;float: right;"' + outofstock_visible + '>Out of Stock</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '<div class="product-hover-action">' +
+                            '<ul>' +
+                            '<li '+disable_cart+'>' +
+                            '<a href="#" title="Quick View"' +
+                            'data-bs-toggle="modal"' +
+                            'data-bs-target="#quick_view_modal"' +
+                            'data-id="' + product.StockId + '"' +
+                            'id="openViewModal">' +
+                            '<i class="far fa-eye"></i>' +
+                            '</a>' +
+                            '</li>' +
+                            '<li '+disable_cart+'>' +
+                            '<a onclick="addToCart(' + product.StockId + ', \'' + code + '\')" class="cartHref" style="cursor:pointer;"><i class="fas fa-shopping-cart"></i></a>'+                                                        
+                            '</li>' +
+                            '<li>' +
+                            '<a onclick="addToWishList(' + product.StockId + ', \'' + code + '\')" class="wishHref" style="cursor:pointer;"><i class="far fa-heart"></i></a>'+                                                     
+                            '</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="product-info"' +
+                            'style="background-color: #f3f5f7; height: 150px;">' +
+                            '<div class="product-ratting">' +
+                            '<ul>' +
+                            '<li><a href="#"><i class="fas fa-star"></i></a></li>' +
+                            '<li><a href="#"><i class="fas fa-star"></i></a></li>' +
+                            '<li><a href="#"><i class="fas fa-star"></i></a></li>' +
+                            '<li><a href="#"><i>' +
+                            '<i class="fas fa-star-half-alt"></i></a>' +
+                            '</li>' +
+                            '<li><a href="#"><i class="far fa-star"></i></a></li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '<h2 class="product-title"><a style="font-style: normal; font-size: 14px;" href="/product/single_product/' + product.StockId + '">' +
+                            pro_name +
+                            '</a></h2>' +
+                            '<div class="product-price">' +
+                            '<del '+old_price_visible+' style="font-size:15px;font-style:normal; color: #ff0000e0;margin-right:5px;">' + unit + sellPrice + '</del>'+
+                            '<span style="font-style: normal; font-size: 15px; font-weight: bold;">' + unit + sellPriceWithDiscount + '</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+
+                        protext_list = protext_list +
+                            ' <div class="col-lg-12">' +
+                            ' <div class="ltn__product-item ltn__product-item-3">' +
+                            ' <div class="product-img" style="margin:10px;">' +
+                            '<a href=" /product/single_product/' + product.StockId + '">' +
+                            '<img style="height: 200px;" src="'+src+'" alt="#"></a>'+
+                            '<div class="product-badge">' +
+                            '<ul>'+
+                            '<li style="font-size: 15px;font-style:normal;margin-right: 120px;background: #0a9a73;width: 58px;height: 57px;border-radius: 30px 30px 0;padding: 8px 10px;color: #fff;text-align: center;line-height: 22px;" ' + discount_visible + '>'+product.DiscountPercentage+'% OFF</li>' +
+                            '<li style="font-style: normal; font-weight: normal; font-size: 13px; border-radius: 3px; margin-top: 30px;float: right;" class="sale-badge" ' + pres_visible + '>Prescription</li>' +
+                            '<li style="font-style: normal; font-weight: normal; font-size: 13px; background-color: #cb1e1e; border-radius: 3px; margin-top: 30px;float: right;"' + outofstock_visible + '>Out of Stock</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '</div>'+
+                            '<div class="product-info">'+
+                            '<h2 class="product-title">'+
+                            '<a style="font-style: normal; font-size: 13px;" href="/product/single_product/' + product.StockId + '">'+pro_name+'</a>'+
+                            '</h2>'+
+                            '<div class="product-ratting">'+
+                            '<ul>'+
+                            '<li><a href="#"><i class="fas fa-star"></i></a></li>'+
+                            '<li><a href="#"><i class="fas fa-star"></i></a></li>'+
+                            '<li><a href="#"><i class="fas fa-star"></i></a></li>'+
+                            '<li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>'+
+                            '<li><a href="#"><i class="far fa-star"></i></a></li>'+
+                            '</ul>'+
+                            '</div>'+
+                            '<div class="product-price">'+
+                            '<del '+old_price_visible+' style="font-style:normal;font-size:15px; color: #ff0000e0;margin-right:5px;">' + unit + sellPrice + '</del>'+
+                            '<span style="font-style: normal; font-size: 15px; font-weight: bold;">' + unit + sellPriceWithDiscount + '</span>' +
+                            '</div>'+                                                          
+                            '<div class="product-hover-action">'+
+                            '<ul>'+
+                            '<li '+disable_cart+'>'+
+                            '<a href="#" title="Quick View" data-bs-toggle="modal" '+
+                            'data-bs-target="#quick_view_modal"'+
+                            'data-id="' + product.StockId + '"' +
+                            'id="openViewModal"> <i class="far fa-eye"></i></a>'+
+                            '</li>'+
+                            '<li '+disable_cart+'>'+
+                            '<a onclick="addToCart(' + product.StockId + ', \'' + code + '\')" class="cartHref" style="cursor:pointer;"><i class="fas fa-shopping-cart"></i></a>'+                                                       
+                            '</li>'+
+                            '<li>'+
+                            '<a onclick="addToWishList(' + product.StockId + ', \'' + code + '\')" class="wishHref" style="cursor:pointer;"><i class="far fa-heart"></i></a>'+                                                                                                      
+                            '</li>'+
+                            '</ul>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>';
+    
+                        });
+    
+                        document.getElementById('dataholder_tile').innerHTML = protext_tile;
+                        document.getElementById('dataholder_list').innerHTML = protext_list;
+                    }
+                });
+    
+            }
+        </script>
+        <!-- Pagination Part End -->
+
+    <script>
+       // View Process
+       $(document).on("click", "#openViewModal", function () {
+            var id = $(this).data('id');
+            $.ajax({
+                url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/EcomProduct/GetStockDetailsWithStockId?Id='+id,
+                type: 'GET',
+                success: function (res) {
+                    //console.log(res.content.currentStock)
+                    $(".modal-body #name").text(res.content.name);
+                    $(".modal-body #current_stock").val(res.content.currentStock);
+                    $(".modal-body #stock_id").val(id);
+                    if(res.content.currentStock == 0){
+                        $(".modal-body #available_stock_tag").hide();
+                        $(".modal-body #stock").hide();
+                    }else{
+                        $(".modal-body #out_of_stock_tag").hide();
+                    } 
+
+                    if(res.content.currentStock > 0 && res.content.currentStock <= 10){ 
+                        $(".modal-body #stock").text("1+");
+                    }else if(res.content.currentStock > 10 && res.content.currentStock <= 20){ 
+                        $(".modal-body #stock").text("10+");
+                    }else if(res.content.currentStock > 20 && res.content.currentStock <= 30){ 
+                        $(".modal-body #stock").text("20+");
+                    }else if(res.content.currentStock > 30 && res.content.currentStock <= 40){ 
+                        $(".modal-body #stock").text("30+");
+                    }else if(res.content.currentStock > 40 && res.content.currentStock <= 50){ 
+                        $(".modal-body #stock").text("40+");
+                    }else if(res.content.currentStock > 50 && res.content.currentStock <= 60){ 
+                        $(".modal-body #stock").text("50+");
+                    }else if(res.content.currentStock > 60 && res.content.currentStock <= 70){ 
+                        $(".modal-body #stock").text("60+");
+                    }else if(res.content.currentStock > 70 && res.content.currentStock <= 80){ 
+                        $(".modal-body #stock").text("70+");
+                    }else if(res.content.currentStock > 80 && res.content.currentStock <= 90){ 
+                        $(".modal-body #stock").text("80+");
+                    }else if(res.content.currentStock > 90 && res.content.currentStock <= 100){ 
+                        $(".modal-body #stock").text("90+");
+                    }else if(res.content.currentStock > 100 && res.content.currentStock <= 200){
+                        $(".modal-body #stock").text("100+");
+                    }else{
+                        $(".modal-body #stock").text("200+");
+                    }
+                                       
+                    $(".modal-body #price").text((res.content.UnitSellingPrice != null) ? 'LKR '+res.content.UnitSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : 'LKR '+0);
+                    var images = res.content.imageURLList + " ";
+                    $('.modal-body #img').attr('src', "https://storage.googleapis.com/products_bucket_1/" + images.split(',')[0]);
+                
+
+                // Set the Input stock limit -----------------------------------------------------------------------
+                // Get the input element
+                const input = document.querySelector('#qtybutton');
+                // Add an event listener to the input element
+                input.addEventListener('keypress', (event) => {
+                // Get the current value of the input element
+                let value = parseFloat(event.target.value + event.key);
+
+                    // Check if the value is greater than the current stock
+                    if (value > res.content.currentStock) {
+                        // Prevent the default keypress event
+                        event.preventDefault();
+                    }
+                });
+                // Set the Input stock limit -----------------------------------------------------------------------
+                
+        $(".qtybutton").on("click", function() {
+            var $button = $(this);
+            var oldValue = $button.parent().find("input").val();
+            if ($button.text() == "+") {
+                // //console.log("click + single pro page: " + oldValue)
+                var current_stock = parseFloat($(".modal-body #current_stock").val());
+                // //console.log("current_stock: " + current_stock)
+                if(oldValue < current_stock){
+                    //console.log('add 1') 
+                    var newVal = parseFloat(oldValue) + 1;
+                }else{
+                    //console.log('exceed')  
+                    newVal = oldValue;
+                    const element = document.querySelector('.inc.qtybutton');
+                    element.style.pointerEvents = 'none';
+                }
+            } 
+            else {
+                const element = document.querySelector('.inc.qtybutton');
+                element.style.pointerEvents = 'auto';
+                if (oldValue > 0) {
+                    var newVal = parseFloat(oldValue) - 1;
+                } 
+                else {
+                    newVal = 1;
+                }
+            }
+            $button.parent().find("input").val(newVal);
+        });
+                }
+            })
+        });
+
+        function addToCartModalButton(){
+            var stock_id = parseFloat($(".modal-body #stock_id").val());
+            var code = '<%=query%>';
+            //console.log(stock_id); //console.log(code);
+            addToCart(stock_id, code)
+        }
+
+        function addToWishListModalButton(){
+            var stock_id = parseFloat($(".modal-body #stock_id").val());
+            var code = '<%=query%>';
+            addToWishList(stock_id, code)
+        }
+
+        // Cart Modal 
+        function addToCart(id, code){
+            var qty = parseFloat($(".modal-body #qtybutton").val());
+            $('#quick_view_modal').modal('hide');
+            $(".cartHref").attr("href", "/cart/my_cart/" + id +'&'+ code +'&'+ qty);
+            toastrTrigger("Successfully added to the shopping cart.", "Success", "success")           
+        }
+
+         // Wish List
+         function addToWishList(id, code){
+            //console.log('<%=current_user%>')
+            // if('<%=current_user%>' == ""){
+            //     $(".cartHref").attr("href", "/auth/login");
+            // }else{
+                //console.log(id);  //console.log(code);
+                $('#quick_view_modal').modal('hide');
+                $(".wishHref").attr("href", "/cart/wish_list/" + id +'&'+ code);
+                // toastr.success('Successfully added to the wish list.','');
+            // }           
+        }
+
+        function toastrTrigger(message, title, type) {
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                toastr[type](message, title);
+            }, 500);
+        }
+    </script>
+
+</body>
+
+</html>
+
+<!-- MODAL AREA START (Quick View Modal) -->
+<div class="ltn__modal-area ltn__quick-view-modal-area">
+    <div class="modal fade" id="quick_view_modal" tabindex="-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="ltn__quick-view-modal-inner">
+                        <div class="modal-product-item">
+                            <div class="row">
+                                <div class="col-lg-6 col-12">
+                                    <div class="modal-product-img">
+                                        <img src="" id="img" alt="#" height="400">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="modal-product-info">
+                                        <div class="product-ratting">
+                                            <ul>
+                                                <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                                <li><a href="#"><i class="far fa-star"></i></a></li>
+                                                <li class="review-total"> <a href="#"> ( 95 Reviews )</a></li>
+                                            </ul>
+                                        </div>
+                                        <h3 id="name"></h3>
+                                        <div class="product-price">
+                                            <span id="price"></span>
+                                        </div>
+                                        <span style="font-weight: bold; font-size: 14px;" id="available_stock_tag">Available Stock&nbsp;&nbsp;</span><span style="font-weight: bold;" id="stock"></span>
+                                        <span style="color: red; font-weight: bold; font-size: 14px;" id="out_of_stock_tag">Out of Stock</span>
+                                        <input type="hidden" id="current_stock"/>
+                                        <div class="ltn__product-details-menu-2">
+                                            <ul>
+                                                <li>
+                                                    <div class="cart-plus-minus">
+                                                        <div class="dec qtybutton">-</div>
+                                                        <input type="text" value="1" name="qtybutton" id="qtybutton"
+                                                            class="cart-plus-minus-box"> 
+                                                        <div class="inc qtybutton">+</div>                                                      
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <input type="hidden" id="stock_id"/>
+                                                    <a href="#" onclick="addToCartModalButton()" class="theme-btn-1 btn btn-effect-1 cartHref">
+                                                        <i class="fas fa-shopping-cart"></i>
+                                                        <span>ADD TO CART</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="ltn__product-details-menu-3">
+                                            <ul>
+                                                <li>
+                                                    <a href="" onclick="addToWishListModalButton()" class="wishHref"><i class="far fa-heart"></i>
+                                                        <span>Add to Wishlist</span>
+                                                    </a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL AREA END -->
+

@@ -1,0 +1,207 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | <%=sub_title%></title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<style>
+    body {
+        font-family: 'Roboto';
+    }   
+    .contact-form-box {
+        padding: 0px !important;
+    }   
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        height: 45px;
+        border-radius: 10px;
+        font-family: 'Roboto';
+    }
+    .section-title-area p{
+        max-width: 700px;
+    }
+
+    .form-check-input:checked {
+        background-color: #0a9a73;
+        border-color: #0a9a73;
+    }
+    .red-star{
+        color: red;
+    }
+    textarea {
+        min-height: 100px;
+        border-radius: 5px;
+    }
+    .nice-select{
+        min-width: 530px;
+    }
+</style>
+<body>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+
+<!-- Body main wrapper start -->
+<div class="body-wrapper">
+
+    <%- include('includes/header.ejs'); %>
+
+    <div class="ltn__utilize-overlay"></div>
+
+    <hr style="height: 5px; color:#084434; margin: 20px;">
+
+    <div class="ltn__login-area pb-30">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area text-center">
+                        <h1 class="section-title">Upload Prescription</h1>
+                        <p>Please upload an image of your medical prescription issued by a SLMC registered doctor.</br>
+                            Prescription drugs will only be issued if a valid prescription image is provided.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="account-login-inner">
+                        <form action="/index/add_pres" method="POST" id="formUploadPres" class="ltn__form-box contact-form-box">
+                            <div class="card">
+                                <div class="card-body">
+                            <label style="margin-bottom: 10px; margin-right: 150px;">Frequency <span class="red-star">*</span></label>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input" name="freradio" value="onetime">&nbsp;&nbsp;One Time
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input" name="freradio" value="ongoing">&nbsp;&nbsp;On Going
+                                </label>
+                            </div>
+
+                            <label style="margin-right: 84px;">Receive substitutes <span class="red-star">*</span></label>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input" name="substitutes" value="yes">&nbsp;&nbsp;Yes
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input" name="substitutes" value="no">&nbsp;&nbsp;No
+                                </label>
+                            </div>
+
+                            <label style="margin-top: 10px; margin-bottom: 5px; margin-top: 5px;">Enter the prescription items. <span class="red-star">*</span></label>
+                            <h6 class="section-subtitle section-subtitle-2 ltn__secondary-color" style="font-size: 12px;">Eg: Crestor 10mg - 10 Qty, Coversyl 2.5mg - 3 Qty</h6>
+                            <textarea id="pres_list" name="pres_list"></textarea>
+                            
+                            <label style="margin-bottom: 5px;">Upload your prescription <span class="red-star">*</span></label>
+                            <input class="form-control" type="file" name="imgFile" onchange="onFileSelected(event)">
+                            <div class="product-img">
+                            <img hidden="true" src="img/product/2.png" id="imgPreview" style=" border: 1px solid #ddd;
+                            border-radius: 4px;
+                            padding: 5px;
+                            width: 250px;
+                            height: 200px;
+                            margin-top: 10px;">                  
+                            </div>
+
+                            <br><label style="margin-bottom: 5px;">Payment Method <span class="red-star">*</span></label><br>
+                            <select name="payment_method">
+                                <option value="card">Card Payment</option>
+                                <option value="cash">Cash Payment</option>
+                            </select>
+
+                            <br><br><label style="margin-bottom: 5px;">Prefer to receive refund as <span class="red-star">*</span></label><br>
+                            <select name="refund">
+                                <option value="card_refund">Card</option>
+                                <option value="cash_refund">Cash</option>
+                            </select>
+                                                        
+                            <input type="submit" style="display: none;" />  
+                        </form>
+
+                        <br><br><div class="btn-wrapper">
+                            <button class="theme-btn-1 btn reverse-color btn-block" id="btnSubmit">SUBMIT PRESCRIPTION</button>
+                        </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include('includes/footer.ejs'); %>
+
+</div>
+<!-- Body main wrapper end -->
+
+    <!-- All JS Plugins -->
+    <script src="js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="js/main.js"></script>
+
+    <script>
+        function onFileSelected(event) {
+            $('#imgPreview').removeAttr('hidden');
+            var selectedFile = event.target.files[0];
+            var reader = new FileReader();
+
+            var imgtag = document.getElementById("imgPreview");
+            imgtag.title = selectedFile.name;
+
+            reader.onload = function(event) {
+                imgtag.src = event.target.result;
+            };            
+            reader.readAsDataURL(selectedFile);
+        }
+
+        $("#btnSubmit").click(function () {
+            var frequency = $('input[name="freradio"]:checked').val();
+            var substitutes = $('input[name="substitutes"]:checked').val();
+            var pres_list = $('textarea#pres_list').val()
+            
+
+
+            var main_category_name = $("input[name='main_category_name']").val();
+           
+            if (!main_category_name) {
+                toastr.error(
+                    'Please fill required field!','ERROR',
+                    {timeOut: 2000,fadeOut: 2000,}
+                );
+            } else {
+                $("#formUploadPres").submit();
+            }
+        });
+
+    </script>
+  
+</body>
+</html>
+

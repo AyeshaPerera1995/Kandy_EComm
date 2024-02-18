@@ -1,0 +1,822 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | <%=sub_title%>
+    </title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Toastr  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+</head>
+
+<style>
+    body {
+        font-family: 'Roboto';
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        height: 45px;
+        border-radius: 10px;
+        font-family: 'Roboto';
+    }
+
+    .badge-title {
+        background-color: #0a9a73;
+        width: 150px;
+        border-radius: 5px;
+        line-height: 30px;
+        padding: 5px 5px 5px 10px;
+        color: white;
+        font-weight: normal;
+    }
+
+    textarea {
+        min-height: 100px;
+    }
+
+    .ltn__checkout-payment-method .card {
+        padding: 10px;
+    }
+
+    /* upload prescription section styles  */
+    .box {
+        max-width: 500px;
+        width: 100%;
+        padding: 30px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+    }
+
+    .uploadlabel {
+        width: 100%;
+        min-height: 100px;
+        /* background: #084434; */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 3px dashed green;
+        cursor: pointer;
+    }
+
+    .uploadlabel span {
+        font-size: 50px;
+        color: #0a9a73;
+    }
+
+    .uploadlabel p {
+        font-size: 17px;
+        color: #0a9a73;
+        font-weight: 800;
+    }
+
+    .uploaded {
+        margin: 30px 0;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .showfilebox {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 10px 0;
+        padding: 10px 15px;
+        box-shadow: rgb(150, 149, 149) 0px 0px 0px 0.5px, gray 0px 0px 0px 0.5px inset;
+        border-radius: 3px;
+    }
+
+    .showfilebox .left {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .filetype {
+        background: #0a9a73;
+        color: aliceblue;
+        padding: 0px 15px;
+        font-size: 14px;
+        border-radius: 3px;
+    }
+
+    .left h3 {
+        font-weight: 700;
+        font-size: 15px;
+        color: rgb(48, 47, 47);
+        margin: 0;
+    }
+
+    .right span {
+        line-height: 25px;
+        height: 25px;
+        font-size: 25px;
+        display: inline-block;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    /* upload prescription section styles  */
+
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place front is invalid - may break your css so removed */
+        left: 0;
+        right: 0;
+        /* Full width (left and right 0) */
+        top: 0;
+        bottom: 0;
+        /* Full height top and bottom 0 */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+        z-index: 9999;
+        /* Sit on top - higher than any other z-index in your site*/
+    }
+</style>
+
+<body>
+
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
+
+        <%- include('includes/header.ejs'); %>
+
+            <div class="ltn__utilize-overlay"></div>
+
+            <hr style="height: 5px; color:#084434; margin: 20px;">
+
+            <!-- WISHLIST AREA START -->
+            <div class="ltn__checkout-area mb-105">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="ltn__checkout-inner">
+
+                                <div class="ltn__checkout-single-content mt-50">
+                                    <h4 class="title-2">Billing Details</h4>
+                                    <div class="ltn__checkout-single-content-info">
+                                        <!-- <label class="badge-title">Delivery Address</label> -->
+                                        <select class="select" id="cusAddressList">
+                                            <option disabled selected>Select Delivery
+                                                Address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </option>
+                                            <% if(addressList !=undefined){ for(let addressItem of addressList){ %>
+                                                <option value="<%=addressItem.address%>">
+                                                    <%=addressItem.address.split(':')[0]%>,
+                                                        <%=addressItem.address.split(':')[1]%>,
+                                                            <%=addressItem.address.split(':')[2]%>.
+                                                </option>
+                                                <% } } %>
+                                        </select>
+
+
+                                        <br><br>
+                                        <p id="delivery-address"></p>
+                                        <span id="delivery-zip"></span>
+                                        <p id="delivery-mobile"></p>
+
+                                        <div class="ltn__checkout-single-content ltn__coupon-code-wrap">
+                                            <h5>New Address? <a class="ltn__secondary-color" href="#ltn__coupon-code"
+                                                    data-bs-toggle="collapse">Click here.</a></h5>
+                                            <div id="ltn__coupon-code"
+                                                class="collapse ltn__checkout-single-content-info">
+                                                <div class="ltn__coupon-code-form">
+                                                    <!-- <form action="/checkout/saveNewAddress" method="post" -->
+                                                    <!-- id="formAddress"> -->
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12">
+                                                            <h6>Address</h6>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="input-item">
+                                                                        <input type="text" name="number"
+                                                                            placeholder="House Number">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="input-item">
+                                                                        <input type="text" name="street"
+                                                                            placeholder="Apartment, Street">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6">
+                                                            <h6>Town / City</h6>
+                                                            <div class="input-item">
+                                                                <input type="text" name="city" placeholder="City">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6">
+                                                            <h6>Zip</h6>
+                                                            <div class="input-item">
+                                                                <input type="text" name="zip" placeholder="Zip Code">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button id="btnSaveAddress"
+                                                        style="cursor: pointer; padding: 7px 10px;"
+                                                        class="btn theme-btn-1 btn-effect-1 text-uppercase">Save
+                                                        Address</button>
+                                                    <!-- </form> -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <form action="#">
+                                            <!-- <h6>Delivery Date</h6>
+                                            <div class="input-item">
+                                                <input class="form-control" type="date" id="date">
+                                            </div><br> -->
+                                            <h6>Delivery Notes</h6>
+                                            <div class="input-item input-item-textarea ltn__custom-icon">
+                                                <textarea id="note" rows="5"
+                                                    placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                            </div>
+                                        </form>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="ltn__checkout-payment-method mt-50">
+                                <h4 class="title-2">Payment Method</h4>
+                                <div id="checkout_accordion_1">
+                                    <!-- card -->
+                                    <div class="card">
+
+                                        <h5 data-bs-toggle="collapse" data-bs-target="#faq-item-2-2"
+                                            aria-expanded="false">
+                                            <input type="radio" name="pay_method" value="cash" checked />
+                                            Cash On Delivery
+                                        </h5>
+                                        <div id="faq-item-2-2" class="collapse show"
+                                            data-bs-parent="#checkout_accordion_1">
+                                            <div class="card-body">
+                                                <p>Pay with cash upon delivery.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- card -->
+                                    <div class="card">
+                                        <!-- <h5 class="collapsed ltn__card-title" data-bs-toggle="collapse"
+                                            data-bs-target="#faq-item-2-3" aria-expanded="false">
+                                            Visa / Master <img src="img/icons/payment-3.png" alt="#">
+                                        </h5> -->
+                                        <h5 data-bs-toggle="collapse" data-bs-target="#faq-item-2-3"
+                                            aria-expanded="false">
+                                            <input type="radio" name="pay_method" value="card" />
+                                            Visa / Master <img src="img/icons/payhere.png" alt="#" width="250">
+                                        </h5>
+                                        <div id="faq-item-2-3" class="collapse" data-bs-parent="#checkout_accordion_1">
+                                            <div class="card-body">
+                                                <p>Pay via Cards; you can pay with your credit and debit cards.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ltn__checkout-payment-method mt-50">
+                                <h4 class="title-2">Cart Summary</h4>
+                                <table class="table">
+                                    <tbody>
+                                        <% if(cartItems !=undefined){ for (let i=0; i < cartItems.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <% if(cartItems[i].image != "") { %>
+                                                    <a href="#"><img
+                                                            src="https://storage.googleapis.com/products_bucket_1/<%=cartItems[i].image%>"
+                                                            alt="#" width="60" height="60"
+                                                            style="border-radius: 5px; border: 1px solid #e5e7e7;"></a>
+                                                    <% }else{ %>
+                                                        <a href="#"><img
+                                                            src="/img/Default2.png"
+                                                            alt="#" width="60" height="60"
+                                                            style="border-radius: 5px; border: 1px solid #e5e7e7;"></a>
+                                                    <% } %>
+                                                </td>
+                                                <td style="font-size: 14px;">
+                                                    <%=cartItems[i].name%> <strong>&nbsp;&nbsp;x&nbsp;&nbsp;
+                                                            <%=cartItems[i].quantity%>
+                                                        </strong>
+                                                </td>
+                                                <td style="float: right; border-bottom: none;">LKR
+                                                    <%=(cartItems[i].unitPrice*cartItems[i].quantity).toLocaleString('en-US', {
+                                                        minimumFractionDigits: 2, maximumFractionDigits: 2 })%>
+                                                </td>
+                                            </tr>
+                                            <% } } %>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6" id="prescription_box" <%=userCart.prescriptionNeeded == false?"hidden":""%>>
+                            <div class="ltn__checkout-payment-method mt-10">
+                                <h4 class="title-2">Upload Prescription</h4>
+                                <div class="box">
+                                    <div class="input-bx">
+                                        <form action="">
+                                            <input type="file" id="upload" name="img[]"
+                                                accept=".doc,.docx,.pdf,.jpg,.jpeg,.png" hidden>
+                                            <label for="upload" class="uploadlabel">
+                                                <span><i class="fa fa-cloud-upload"></i></span>
+                                                <p style="margin-bottom: 20px;">Click to Upload</p>
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <div id="filewrapper">
+                                        <h3 class="uploaded">-- Upload Documents</h3>
+                                       
+                                    </div>
+                                </div>
+
+                                <p style="font-size: 14px; justify-content: center;">Please upload an image of your
+                                    medical prescription issued by an SLMC registered
+                                    doctor. Prescription drugs will only be issued if a valid prescription image is
+                                    <br> provided.
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="ltn__checkout-payment-method mt-50">
+                                <h4 class="title-2">Order Summary</h4>
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Cart Sub Total</td>
+                                            <td style="float: right;" id="sub_total">LKR
+                                                <%=userCart.subTotal.toLocaleString('en-US', { minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2 });%>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Discount</td>
+                                            <td style="float: right;">LKR
+                                                <%=userCart.totalDiscount.toLocaleString('en-US', {
+                                                    minimumFractionDigits: 2, maximumFractionDigits: 2 });%>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Shipping Fee</td>
+                                            <td style="float: right;">LKR 350.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tax</td>
+                                            <td style="float: right;">LKR 0.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Order Total</strong></td>
+                                            <td style="float: right;"><strong>LKR
+                                                    <%=(userCart.orderTotal+350).toLocaleString('en-US', {
+                                                        minimumFractionDigits: 2, maximumFractionDigits: 2
+                                                        });%></strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <br>
+                                <button class="btn theme-btn-1 btn-effect-1 text-uppercase" id="btnPlaceOrder"
+                                    style="float: right;">Place
+                                    order</button>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- WISHLIST AREA START -->
+            <%- include('includes/footer.ejs'); %>
+
+    </div>
+    <!-- Body main wrapper end -->
+
+    <!-- All JS Plugins -->
+    <script src="js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="js/main.js"></script>
+    <!-- Main JS -->
+    <script type="text/javascript" src="js/pay.js"></script>
+    <!-- Toastr  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+
+    <script>
+        // upload prescription section JS
+        var presArrayList = [];
+        window.addEventListener("load", () => {
+            const input = document.getElementById("upload");
+            const filewrapper = document.getElementById("filewrapper");
+
+            input.addEventListener("change", (e) => {
+                let filename = e.target.files[0].name;
+                let filetype = e.target.value.split(".").pop();
+                // //console.log(e.target.files[0])
+                presArrayList.push(e.target.files[0])
+                fileshow(filename, filetype)
+            })
+
+            const fileshow = (filename, filetype) => {
+                const showfileboxElem = document.createElement("div");
+                showfileboxElem.classList.add("showfilebox");
+
+                const leftElem = document.createElement("div");
+                leftElem.classList.add("left");
+
+                const filetypeElem = document.createElement("span");
+                filetypeElem.classList.add("filetype");
+                filetypeElem.innerHTML = filetype;
+
+                leftElem.append(filetypeElem);
+                const filetitleElem = document.createElement("h3");
+                filetitleElem.innerHTML = filename;
+                leftElem.append(filetitleElem);
+                showfileboxElem.append(leftElem);
+
+                const rightElem = document.createElement("div");
+                rightElem.classList.add("right");
+                showfileboxElem.append(rightElem);
+
+                const crossElem = document.createElement("span");
+                crossElem.innerHTML = "&#215;";
+                rightElem.append(crossElem)
+
+                filewrapper.append(showfileboxElem);
+
+                crossElem.addEventListener("click", () => {
+                    filewrapper.removeChild(showfileboxElem)
+                })
+            }
+        })
+        // upload prescription section JS 
+
+        $("#btnSaveAddress").click(function () {
+            var number = $("input[name='number']").val();
+            var street = $("input[name='street']").val();
+            var city = $("input[name='city']").val();
+            var zip = $("input[name='zip']").val();
+
+            if (!number || !street || !city || !zip) {
+                toastr.error(
+                    'Please fill required fields!', 'ERROR',
+                    { timeOut: 2000, fadeOut: 2000, }
+                );
+            } else {
+                // $("#formAddress").submit();
+                $.ajax({
+                    url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/CustomerAddress/Insert',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        "customerCode": "<%=customer.customerCode%>",
+                        "address": number + ":" + street + ":" + city + ":" + zip,
+                        "type": "default"
+                    }),
+                    contentType: "application/json",
+                    success: function (res) {
+                        if (res.status == "Success") {
+                            toastr.success("New Address Added.", "Success", "success")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000); // Refresh the page after 5 seconds
+                        } else {
+                            toastr.error(res.message, "Error", "error")
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#cusAddressList').change(function (e) {
+            var value = $('#cusAddressList').find(":selected").val();
+            //console.log(value)
+            // Set the selected address
+            $('#delivery-address').html(`${value.split(':')[0]},<br>${value.split(':')[1]},<br>${value.split(':')[2]}.`);
+            if (value.split(':')[3] != undefined) {
+                $('#delivery-zip').text(`Zip code: ${value.split(':')[3]}`)
+            }
+            $('#delivery-mobile').text(`${"<%=customer.phone%>"}`)
+        })
+
+        function uuidv4() {
+            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+                (
+                    c ^
+                    (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+                ).toString(16)
+            );
+        }
+
+        document.getElementById("btnPlaceOrder").addEventListener("click", () => {
+            var deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + 4);
+            //console.log(deliveryDate)
+
+            var address = $('#delivery-address').text();
+            var date = deliveryDate;
+            var note = $('#note').val();
+            var pay_method = $("input[type='radio'][name='pay_method']:checked").val();
+            var sub_total = '<%=userCart.subTotal%>';
+            var total_discount = '<%=userCart.totalDiscount%>';
+            var shipping = 350.00;
+            var order_total = 350.00 + parseFloat('<%=userCart.orderTotal%>');
+            var orderItems = [];
+
+            var prescriptionBox = document.getElementById("prescription_box");
+            var isHidden = prescriptionBox.hidden;
+
+            if (!address || !pay_method) {
+                toastr.error("Please fill required fields!", "ERROR", "error")
+            } 
+            else if (!isHidden && presArrayList.length == 0) {
+                toastr.error("Please upload required prescriptions!", "UPLOAD ERROR", "error")
+            } 
+            else {
+
+                var cartString = unescape('<%= escape(JSON.stringify(cartItems)) %>');
+                var cart = JSON.parse(cartString)
+                for (let cartItem of cart) {
+                    orderItems.push({
+                        "ecomStockId": cartItem.ecomStockId,
+                        "unitPrice": cartItem.unitPrice,
+                        "quantity": cartItem.quantity,
+                        "discount": cartItem.discount
+                    })
+                }
+
+                //console.log(pay_method)
+                //console.log(sub_total, total_discount, order_total, shipping)
+                // If there is at least one prescription is attached.........
+
+                if (presArrayList.length != 0) {
+                    //console.log('have attachments')
+                    for (let i = 0; i < presArrayList.length; i++) {
+                        let imgid = uuidv4();
+                        let file = presArrayList[i];
+                        let blob = file.slice(0, file.size, "image/jpeg");
+                        newFile = new File([blob], `${imgid}_prescription.jpeg`, { type: "image/jpeg" });
+                        // //console.log(newFile)
+                        // //console.log(orderItems)
+                        let formData = new FormData();
+                        formData.append("address", address);
+                        formData.append("date", date);
+                        formData.append("note", note);
+                        formData.append("pay_method", pay_method);
+                        formData.append("sub_total", sub_total);
+                        formData.append("total_discount", total_discount);
+                        formData.append("shipping", shipping);
+                        formData.append("order_total", order_total);
+                        formData.append("order_items", JSON.stringify(orderItems));
+                        formData.append("imgListLength", presArrayList.length);
+                        formData.append("current_element", i + 1);
+                        formData.append("imgFile", newFile);
+
+                        fetch("/checkout/place_order", {
+                            method: "POST",
+                            body: formData,
+                        })
+                            .then(response => {
+                                //console.log(response)
+                                if (response.status == 200) {
+
+                                    //console.log("success status 200")
+                                    var orderInfo = JSON.parse(response.headers.get("CustomerOrder"));
+                                    var hash = JSON.parse(response.headers.get("Hash"));
+                                    window.processPayment(orderInfo.orderCode, orderInfo.total, hash);
+                                } else if (response.status == 201) {
+
+                                    //console.log("status 201")
+                                    var orderInfo = JSON.parse(response.headers.get("CustomerOrder"));
+                                    window.location.href = "http://estore-dev.kandypharmacy.com/checkout/confirm_order/" + orderInfo.orderCode;
+                                    
+                                } else if (response.status == 202) {
+
+                                    //console.log("status 202")
+                                    var hash = JSON.parse(response.headers.get("Hash"));
+                                    var orderInfo = JSON.parse(response.headers.get("CustomerOrder"));
+                                    var orderItems = JSON.parse(response.headers.get("OrderItems"));
+
+                                    $(".modal-body #orderCode").val(orderInfo.orderCode);
+                                    $(".modal-body #orderTotal").val(orderInfo.total);
+                                    $(".modal-body #orderInfo").val(orderInfo);
+                                    $(".modal-body #hashCode").val(hash);
+                                    $(".modal-body #outOfStockItems").empty();
+                                    orderItems.forEach(item => {
+                                        if (item.status == "Stocks not Enough") {
+                                            // Get stock details, using ecom stock id
+                                            $.ajax({
+                                                url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/EcomProduct/GetStockDetailsWithStockId?Id=' + item.ecomStockId,
+                                                type: 'GET',
+                                                success: function (res) {
+                                                    if (res.status == "Success") {
+                                                        $(".modal-body #outOfStockItems").append('<tr><td><a href="#"><img src="https://storage.googleapis.com/products_bucket_1/' + res.content.imageURLList[0] + '" alt="#" width="60" height="60" style="border-radius: 5px; border: 1px solid #e5e7e7;"></a></td><td style="font-size: 14px; padding-top: 20px;">' + res.content.stockProductName + '</td><td style="font-size: 14px; padding-top: 20px;">' + item.quantity + ' x LKR ' + item.unitPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td><td style="padding-top: 20px; font-size: 14px;">LKR ' + item.discount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td><td style="float: right; border-bottom: none; padding-top: 20px; font-size: 14px;">LKR ' + item.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td></tr>');
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                    $('#notify_info').modal('show');
+                                } else {
+                                    throw new Error('Server response was not ok');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error sending data to server:', error);
+                            });
+
+                    }
+                } else {
+                    //console.log('No attachments')
+
+                    let formData = new FormData();
+                    formData.append("address", address);
+                    formData.append("date", date);
+                    formData.append("note", note);
+                    formData.append("pay_method", pay_method);
+                    formData.append("sub_total", sub_total);
+                    formData.append("total_discount", total_discount);
+                    formData.append("shipping", shipping);
+                    formData.append("order_total", order_total);
+                    formData.append("order_items", JSON.stringify(orderItems));
+                    formData.append("imgListLength", 1);
+                    formData.append("current_element", 1);
+                    formData.append("imgFile", "");
+
+                    fetch("/checkout/place_order", {
+                        method: "POST",
+                        body: formData,
+                    })
+                        .then(response => {
+                            //console.log(response)
+                            if (response.status == 200) {
+
+                                //console.log("success status 200")
+                                var orderInfo = JSON.parse(response.headers.get("CustomerOrder"));
+                                var hash = JSON.parse(response.headers.get("Hash"));
+                                //console.log("orderInfo: "+orderInfo); //console.log("hash: " +hash)
+                                //console.log("orderCode: "+orderInfo.orderCode); //console.log("total: " +orderInfo.total)
+                                window.processPayment(orderInfo.orderCode, orderInfo.total, hash);
+                            } else if (response.status == 201) {
+
+                                //console.log("status 201")
+                                var orderInfo = JSON.parse(response.headers.get("CustomerOrder"));
+                                //console.log("status 201 orderCode" + orderInfo.orderCode)
+                                window.location.href = "http://estore-dev.kandypharmacy.com/checkout/confirm_order/" + orderInfo.orderCode;
+                            } else if (response.status == 202) {
+
+                                //console.log("status 202")
+                                var hash = JSON.parse(response.headers.get("Hash"));
+                                var orderInfo = JSON.parse(response.headers.get("CustomerOrder"));
+                                var orderItems = JSON.parse(response.headers.get("OrderItems"));
+
+                                $(".modal-body #orderCode").val(orderInfo.orderCode);
+                                $(".modal-body #orderTotal").val(orderInfo.total);
+                                $(".modal-body #orderInfo").val(orderInfo);
+                                $(".modal-body #hashCode").val(hash);
+                                $(".modal-body #outOfStockItems").empty();
+                                orderItems.forEach(item => {
+                                    if (item.status == "Stocks not Enough") {
+                                        // Get stock details, using ecom stock id
+                                        $.ajax({
+                                            url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/EcomProduct/GetStockDetailsWithStockId?Id=' + item.ecomStockId,
+                                            type: 'GET',
+                                            success: function (res) {
+                                                if (res.status == "Success") {
+                                                    $(".modal-body #outOfStockItems").append('<tr><td><a href="#"><img src="https://storage.googleapis.com/products_bucket_1/' + res.content.imageURLList[0] + '" alt="#" width="60" height="60" style="border-radius: 5px; border: 1px solid #e5e7e7;"></a></td><td style="font-size: 14px; padding-top: 20px;">' + res.content.stockProductName + '</td><td style="font-size: 14px; padding-top: 20px;">' + item.quantity + ' x LKR ' + item.unitPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td><td style="padding-top: 20px; font-size: 14px;">LKR ' + item.discount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td><td style="float: right; border-bottom: none; padding-top: 20px; font-size: 14px;">LKR ' + item.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</td></tr>');
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                                $('#notify_info').modal('show');
+
+                            } else {
+                                throw new Error('Server response was not ok');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error sending data to server:', error);
+                        });
+
+                }
+            }
+        })
+
+        function continuePayment() {
+            // alert('procced payment')
+            $('#notify_info').modal('hide');
+
+            var orderCode = $(".modal-body #orderCode").val();
+            var orderTotal = $(".modal-body #orderTotal").val();
+            var orderInfo = $(".modal-body #orderInfo").val();
+            var hash = $(".modal-body #hashCode").val();
+            //console.log(orderCode)
+            //console.log(orderTotal)
+            //console.log(hash)
+
+            $("#btnSubmit").attr("href", "/checkout/delete_outOfStocks_items/" + orderCode);
+        }
+
+        function cancelPayment() {
+            // Redirect to the cart page
+            window.location.href = "http://estore-dev.kandypharmacy.com/cart";
+        }
+
+    </script>
+
+    <!-- Info modal  -->
+    <div class="ltn__modal-area ltn__quick-view-modal-area">
+        <div class="modal fade" id="notify_info" tabindex="-1">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ltn__quick-view-modal-inner">
+                            <div class="modal-product-item">
+                                <div class="row">
+                                    <input type="hidden" name="orderCode" id="orderCode" />
+                                    <input type="hidden" name="orderTotal" id="orderTotal" />
+                                    <input type="hidden" name="orderInfo" id="orderInfo" />
+                                    <input type="hidden" name="hashCode" id="hashCode" />
+                                    <div class="ltn__checkout-payment-method mt-10">
+                                        <h5 class="title-2">These items are currently <span
+                                                style="color: red; font-weight: bold;">Out of Stock</span>.</h5>
+                                        <table class="table">
+                                            <tbody id="outOfStockItems">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <p style="font-size: 16px;">Do you wish to proceed the order with available products
+                                        ?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer align-items-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            style="padding: 7px 10px;" onclick="cancelPayment();">No, Cancel it</button>
+                        <a href="" type="button" class="btn btn-success" style="padding: 7px 10px;"
+                            onclick="continuePayment();" id="btnSubmit">Yes, Proceed</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Info modal  -->
+
+</body>
+
+</html>

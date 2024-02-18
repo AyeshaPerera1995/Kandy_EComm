@@ -1,0 +1,950 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | <%=sub_title%></title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    body {
+        font-family: 'Roboto';
+    }
+
+    .slick-list {
+        max-height: 100%;
+    }
+
+    .slick-track {
+        height: 250px;
+    }
+</style>
+
+<body>
+
+<!-- Body main wrapper start -->
+<div class="body-wrapper">
+
+    <%- include('includes/header.ejs'); %>
+
+    <div class="ltn__utilize-overlay"></div>    
+
+    <!-- SLIDER AREA START (slider-3) -->
+    <div class="ltn__slider-area ltn__slider-3---  section-bg-1--- mt-30">
+        <div class="container">
+            <div class="row">
+                <% if (bannerOne.location == 'Home Page One'){ %>
+                <div class="col-lg-7">
+                    <div class="ltn__slide-active-2 slick-slide-arrow-1 slick-slide-dots-1 mb-30">
+                        <div class="ltn__slide-item ltn__slide-item-10 section-bg-1 bg-image" data-bs-bg="https://storage.googleapis.com/banners_bucket_2/<%=bannerOne.imageURL%>">
+                            <div class="ltn__slide-item-inner">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 align-self-center">
+                                            <div class="slide-item-info">
+                                                <div class="slide-item-info-inner ltn__slide-animation">
+                                                    <h6 class="ltn__secondary-color animated"><%=bannerOne.description1%></h6>
+                                                    <h1 class="slide-title animated"><%=bannerOne.description2%></h1>                                                  
+                                                    <h5 class="color-orange animated"><%=bannerOne.description3%></h5>
+                                                    <div class="btn-wrapper animated">
+                                                        <a href="<%=bannerOne.redirectURL%>" class="theme-btn-1 btn btn-effect-1">Shop now</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                                   
+                <div class="col-lg-5">  
+                    <% if (bannerTwo.location == 'Home Page Two'){ %>     
+                        <div class="row" style="margin-bottom: 30px;">
+                            <div class="ltn__slide-active-2">
+                                <div class="section-bg-1 bg-image" data-bs-bg="https://storage.googleapis.com/banners_bucket_2/<%=bannerTwo.imageURL%>">
+                                    <div class="ltn__slide-item-inner">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="align-self-center">
+                                                    <div class="slide-item-info">
+                                                        <div class="slide-item-info-inner" style="padding: 30px;">
+                                                            <h6 class="ltn__secondary-color"><%=bannerTwo.description1%></h6>
+                                                            <h3 class="animated"><%=bannerTwo.description2%></h3>                                                  
+                                                            <h5 class="color-orange animated"><%=bannerTwo.description3%></h5>
+                                                            <div class="btn-wrapper animated">
+                                                                <a href="<%=bannerTwo.redirectURL%>" class="theme-btn-1 btn btn-effect-1" style="padding: 10px">Shop now</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }
+                        if (bannerThree.location == 'Home Page Three'){ %> 
+                            <div class="row">
+                                <div class="ltn__slide-active-2">
+                                    <div class="ltn__slide-item ltn__slide-item-10 section-bg-1 bg-image" data-bs-bg="https://storage.googleapis.com/banners_bucket_2/<%=bannerThree.imageURL%>" style="height: 250px;">
+                                        <div class="ltn__slide-item-inner">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="align-self-center">
+                                                        <div class="slide-item-info">
+                                                            <div class="slide-item-info-inner">
+                                                                <h6 class="ltn__secondary-color"><%=bannerThree.description1%></h6>
+                                                                <h3 class=" animated"><%=bannerThree.description2%></h3>                                                  
+                                                                <h5 class="color-orange animated"><%=bannerThree.description3%></h5>
+                                                                <div class="btn-wrapper animated">
+                                                                    <a href="<%=bannerThree.redirectURL%>" class="theme-btn-1 btn btn-effect-1" style="padding: 10px">Shop now</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>    
+
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+    <!-- SLIDER AREA END -->
+    
+    <!-- CATEGORY AREA START -->
+    <div class="ltn__category-area section-bg-1-- pt-30 pb-50">
+        <div class="container">
+            <div class="row ltn__category-slider-active-six slick-arrow-1 border-bottom" style="height: 100px;">
+                <div class="col-12">
+                    <div class="ltn__category-item ltn__category-item-6 text-center">
+                        <div class="ltn__category-item-img">
+                            <a href="/">
+                                <i class="fas fa-notes-medical"></i>
+                            </a>
+                        </div>
+                        <div class="ltn__category-item-name">
+                            <h6><a href="/">Best Deals</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="ltn__category-item ltn__category-item-6 text-center">
+                        <div class="ltn__category-item-img">
+                            <a href="/">
+                                <i class="fas fa-box-tissue"></i>
+                            </a>
+                        </div>
+                        <div class="ltn__category-item-name">
+                            <h6><a href="/">Germs Pads</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="ltn__category-item ltn__category-item-6 text-center">
+                        <div class="ltn__category-item-img">
+                            <a href="/">
+                                <i class="fas fa-pump-medical"></i>
+                            </a>
+                        </div>
+                        <div class="ltn__category-item-name">
+                            <h6><a href="/">Accessories</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="ltn__category-item ltn__category-item-6 text-center">
+                        <div class="ltn__category-item-img">
+                            <a href="/">
+                                <i class="fas fa-bong"></i>
+                            </a>
+                        </div>
+                        <div class="ltn__category-item-name">
+                            <h6><a href="/">Medicine Cap</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="ltn__category-item ltn__category-item-6 text-center">
+                        <div class="ltn__category-item-img">
+                            <a href="/">
+                                <i class="fas fa-tooth"></i>
+                            </a>
+                        </div>
+                        <div class="ltn__category-item-name">
+                            <h6><a href="/">Dental Item</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="ltn__category-item ltn__category-item-6 text-center">
+                        <div class="ltn__category-item-img">
+                            <a href="/">
+                                <i class="fas fa-microscope"></i>
+                            </a>
+                        </div>
+                        <div class="ltn__category-item-name">
+                            <h6><a href="/">Best Deals</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="ltn__category-item ltn__category-item-6 text-center">
+                        <div class="ltn__category-item-img">
+                            <a href="/">
+                                <i class="fas fa-syringe"></i>
+                            </a>
+                        </div>
+                        <div class="ltn__category-item-name">
+                            <h6><a href="/">All Products</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="ltn__category-item ltn__category-item-6 text-center">
+                        <div class="ltn__category-item-img">
+                            <a href="/">
+                                <i class="fas fa-stethoscope"></i>
+                            </a>
+                        </div>
+                        <div class="ltn__category-item-name">
+                            <h6><a href="/">Germs Pads</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="ltn__category-item ltn__category-item-6 text-center">
+                        <div class="ltn__category-item-img">
+                            <a href="/">
+                                <i class="fas fa-hand-holding-medical"></i>
+                            </a>
+                        </div>
+                        <div class="ltn__category-item-name">
+                            <h6><a href="/">Accessories</a></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="ltn__category-item ltn__category-item-6 text-center">
+                        <div class="ltn__category-item-img">
+                            <a href="/">
+                                <i class="fas fa-procedures"></i>
+                            </a>
+                        </div>
+                        <div class="ltn__category-item-name">
+                            <h6><a href="/">Medicine Cap</a></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- CATEGORY AREA END -->
+
+    <!-- COUNTDOWN AREA START -->
+    <div class="ltn__call-to-action-area section-bg-1 bg-image pt-120 pb-120" data-bs-bg="img/bg/25.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="call-to-action-inner text-color-white--- text-center---">
+                        <div class="section-title-area ltn__section-title-2--- text-center---">
+                            <h6 class="ltn__secondary-color">N95 Facial Covering Mask</h6>
+                            <h1 class="section-title">Grade A Safety Masks For Sale. Haurry Up!</h1>
+                            <p>Over 39,000 people work for us in more than 70 countries all over the This breadth of global coverage, combined with specialist services</p>
+                        </div>
+                        <div class="btn-wrapper animated">
+                            <a href="/" class="theme-btn-1 btn btn-effect-1 text-uppercase">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <!-- <img src="img/banner/15.png" alt="#"> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- COUNTDOWN AREA END -->
+
+    <!-- SMALL PRODUCT LIST AREA START -->
+    <div class="ltn__small-product-list-area section-bg-1 pt-115 pb-90 mt-90">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area ltn__section-title-2 text-center">
+                        <h1 class="section-title">Best Selling Products</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <% 
+                if(bestSellingProducts != null || bestSellingProducts != undefined){
+                for(var i=0; i < bestSellingProducts.length; i++){ 
+                    
+                    var pro_name = bestSellingProducts[i].ProductName;  
+                    
+                    var imgList=bestSellingProducts[i].ProductImages + " " ; 
+                    var image=imgList.split(',')[0]; 
+                    var old_price_visible = "hidden"
+
+                    var sellPriceWithDiscount = 0;
+                    var sellPrice = bestSellingProducts[i].StockSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    const currentDate = new Date().toISOString().replace(/T/, ' ').replace(/Z/, ' ') 
+                    
+                    if(bestSellingProducts[i].DiscountPrecentage != 0 && (bestSellingProducts[i].discountTo > currentDate)){
+                        var discount = (bestSellingProducts[i].StockSellingPrice * bestSellingProducts[i].DiscountPrecentage)/100;
+                        old_price_visible = ""
+                        sellPriceWithDiscount = (bestSellingProducts[i].StockSellingPrice - discount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    }else{
+                        old_price_visible = "hidden"
+                        sellPriceWithDiscount = bestSellingProducts[i].StockSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    }
+                               
+                    %>
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="ltn__small-product-item" style="height: 150px;">
+                        <div class="small-product-item-img">
+                            <% if(bestSellingProducts[i].ProductImages != null) { %>
+                                <a href="/product/single_product/<%=bestSellingProducts[i].StockId%>"><img src="https://storage.googleapis.com/products_bucket_1/<%=image%>" width="90" height="90" style="object-fit: contain" alt="Image"></a>
+                            <% }else{ %>
+                                <a href="/product/single_product/<%=bestSellingProducts[i].StockId%>"><img src="/img/Default2.png" width="90" height="90" style="object-fit: contain" alt="Image"></a>
+                            <% } %>
+                        </div>
+                        <div class="small-product-item-info">
+                            <div class="product-ratting">
+                                <ul>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                    <li><a href="#"><i class="far fa-star"></i></a></li>
+                                </ul>
+                            </div>
+                            <h2 class="product-title" style="font-size: 13px;"><a href="/product/single_product/<%=bestSellingProducts[i].StockId%>"><%=pro_name%></a></h2>
+                            <div class="product-price">
+                                <span>LKR <%=sellPriceWithDiscount%></span>
+                                <del <%=old_price_visible%>>LKR <%=sellPrice%></del>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } } %>
+            </div>
+        </div>
+    </div>
+    <!-- SMALL PRODUCT LIST AREA END -->
+
+    <!-- PRODUCT AREA START (product-item-3) -->
+    <!-- <div class="ltn__product-area ltn__product-gutter pt-115 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area ltn__section-title-2 text-center">
+                        <h1 class="section-title">Best Selling Item</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row ltn__tab-product-slider-one-active--- slick-arrow-1">
+                
+                <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                    <div class="ltn__product-item ltn__product-item-3 text-left">
+                        <div class="product-img">
+                            <a href="product-details.html"><img src="img/product-2/1.png" alt="#"></a>
+                            <div class="product-badge">
+                                <ul>
+                                    <li class="sale-badge">New</li>
+                                </ul>
+                            </div>
+                            <div class="product-hover-action">
+                                <ul>
+                                    <li>
+                                        <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                            <i class="far fa-heart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-ratting">
+                                <ul>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                    <li><a href="#"><i class="far fa-star"></i></a></li>
+                                </ul>
+                            </div>
+                            <h2 class="product-title"><a href="product-details.html">Antiseptic Spray</a></h2>
+                            <div class="product-price">
+                                <span>$32.00</span>
+                                <del>$46.00</del>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                    <div class="ltn__product-item ltn__product-item-3 text-left">
+                        <div class="product-img">
+                            <a href="product-details.html"><img src="img/product-2/2.png" alt="#"></a>
+                            <div class="product-hover-action">
+                                <ul>
+                                    <li>
+                                        <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                            <i class="far fa-heart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-ratting">
+                                <ul>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                    <li><a href="#"><i class="far fa-star"></i></a></li>
+                                </ul>
+                            </div>
+                            <h2 class="product-title"><a href="product-details.html">Digital Stethoscope</a></h2>
+                            <div class="product-price">
+                                <span>$25.00</span>
+                                <del>$35.00</del>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                    <div class="ltn__product-item ltn__product-item-3 text-left">
+                        <div class="product-img">
+                            <a href="product-details.html"><img src="img/product-2/3.png" alt="#"></a>
+                            <div class="product-badge">
+                                <ul>
+                                    <li class="sale-badge">New</li>
+                                </ul>
+                            </div>
+                            <div class="product-hover-action">
+                                <ul>
+                                    <li>
+                                        <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                            <i class="far fa-heart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-ratting">
+                                <ul>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                    <li><a href="#"><i class="far fa-star"></i></a></li>
+                                </ul>
+                            </div>
+                            <h2 class="product-title"><a href="product-details.html">Cosmetic Containers</a></h2>
+                            <div class="product-price">
+                                <span>$75.00</span>
+                                <del>$92.00</del>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                    <div class="ltn__product-item ltn__product-item-3 text-left">
+                        <div class="product-img">
+                            <a href="product-details.html"><img src="img/product-2/4.png" alt="#"></a>
+                            <div class="product-badge">
+                                <ul>
+                                    <li class="sale-badge">New</li>
+                                </ul>
+                            </div>
+                            <div class="product-hover-action">
+                                <ul>
+                                    <li>
+                                        <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                            <i class="far fa-heart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-ratting">
+                                <ul>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                    <li><a href="#"><i class="far fa-star"></i></a></li>
+                                </ul>
+                            </div>
+                            <h2 class="product-title"><a href="product-details.html">Cosmetic Containers</a></h2>
+                            <div class="product-price">
+                                <span>$78.00</span>
+                                <del>$85.00</del>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                    <div class="ltn__product-item ltn__product-item-3 text-left">
+                        <div class="product-img">
+                            <a href="product-details.html"><img src="img/product-2/5.png" alt="#"></a>
+                            <div class="product-badge">
+                                <ul>
+                                    <li class="sale-badge">New</li>
+                                </ul>
+                            </div>
+                            <div class="product-hover-action">
+                                <ul>
+                                    <li>
+                                        <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                            <i class="far fa-heart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-ratting">
+                                <ul>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                    <li><a href="#"><i class="far fa-star"></i></a></li>
+                                </ul>
+                            </div>
+                            <h2 class="product-title"><a href="product-details.html">Blue Hand Gloves</a></h2>
+                            <div class="product-price">
+                                <span>$150.00</span>
+                                <del>$180.00</del>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                    <div class="ltn__product-item ltn__product-item-3 text-left">
+                        <div class="product-img">
+                            <a href="product-details.html"><img src="img/product-2/6.png" alt="#"></a>
+                            <div class="product-badge">
+                                <ul>
+                                    <li class="sale-badge">New</li>
+                                </ul>
+                            </div>
+                            <div class="product-hover-action">
+                                <ul>
+                                    <li>
+                                        <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                            <i class="far fa-heart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-ratting">
+                                <ul>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                    <li><a href="#"><i class="far fa-star"></i></a></li>
+                                </ul>
+                            </div>
+                            <h2 class="product-title"><a href="product-details.html">Thermometer Gun</a></h2>
+                            <div class="product-price">
+                                <span>$150.00</span>
+                                <del>$180.00</del>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                    <div class="ltn__product-item ltn__product-item-3 text-left">
+                        <div class="product-img">
+                            <a href="product-details.html"><img src="img/product-2/7.png" alt="#"></a>
+                            <div class="product-badge">
+                                <ul>
+                                    <li class="sale-badge">New</li>
+                                </ul>
+                            </div>
+                            <div class="product-hover-action">
+                                <ul>
+                                    <li>
+                                        <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                            <i class="far fa-heart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-ratting">
+                                <ul>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                    <li><a href="#"><i class="far fa-star"></i></a></li>
+                                </ul>
+                            </div>
+                            <h2 class="product-title"><a href="product-details.html">Cosmetic Containers</a></h2>
+                            <div class="product-price">
+                                <span>$75.00</span>
+                                <del>$92.00</del>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                    <div class="ltn__product-item ltn__product-item-3 text-left">
+                        <div class="product-img">
+                            <a href="product-details.html"><img src="img/product-2/8.png" alt="#"></a>
+                            <div class="product-badge">
+                                <ul>
+                                    <li class="sale-badge">New</li>
+                                </ul>
+                            </div>
+                            <div class="product-hover-action">
+                                <ul>
+                                    <li>
+                                        <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                            <i class="far fa-heart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-ratting">
+                                <ul>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                                    <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
+                                    <li><a href="#"><i class="far fa-star"></i></a></li>
+                                </ul>
+                            </div>
+                            <h2 class="product-title"><a href="product-details.html">Cosmetic Containers</a></h2>
+                            <div class="product-price">
+                                <span>$78.00</span>
+                                <del>$85.00</del>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div> -->
+    <!-- PRODUCT AREA END -->
+
+    
+
+    <!-- BLOG AREA START (blog-3) -->
+    <!-- <div class="ltn__blog-area pt-115 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area ltn__section-title-2--- text-center">
+                        <h6 class="section-subtitle section-subtitle-2 ltn__secondary-color d-none">News & Blogs</h6>
+                        <h1 class="section-title">Leatest Blogs</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row  ltn__blog-slider-one-active slick-arrow-1 ltn__blog-item-3-normal">
+                
+                <div class="col-lg-12">
+                    <div class="ltn__blog-item ltn__blog-item-3">
+                        <div class="ltn__blog-img">
+                            <a href="blog-details.html"><img src="img/blog/1.jpg" alt="#"></a>
+                        </div>
+                        <div class="ltn__blog-brief">
+                            <div class="ltn__blog-meta">
+                                <ul>
+                                    <li class="ltn__blog-author">
+                                        <a href="#"><i class="far fa-user"></i>by: Admin</a>
+                                    </li>
+                                    <li class="ltn__blog-tags">
+                                        <a href="#"><i class="fas fa-tags"></i>Decorate</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="ltn__blog-title"><a href="blog-details.html">10 Brilliant Ways To Decorate Your Home</a></h3>
+                            <div class="ltn__blog-meta-btn">
+                                <div class="ltn__blog-meta">
+                                    <ul>
+                                        <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i>June 24, 2021</li>
+                                    </ul>
+                                </div>
+                                <div class="ltn__blog-btn">
+                                    <a href="blog-details.html">Read more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="col-lg-12">
+                    <div class="ltn__blog-item ltn__blog-item-3">
+                        <div class="ltn__blog-img">
+                            <a href="blog-details.html"><img src="img/blog/2.jpg" alt="#"></a>
+                        </div>
+                        <div class="ltn__blog-brief">
+                            <div class="ltn__blog-meta">
+                                <ul>
+                                    <li class="ltn__blog-author">
+                                        <a href="#"><i class="far fa-user"></i>by: Admin</a>
+                                    </li>
+                                    <li class="ltn__blog-tags">
+                                        <a href="#"><i class="fas fa-tags"></i>Interior</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="ltn__blog-title"><a href="blog-details.html">The Most Inspiring Interior Design Of 2021</a></h3>
+                            <div class="ltn__blog-meta-btn">
+                                <div class="ltn__blog-meta">
+                                    <ul>
+                                        <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i>July 23, 2021</li>
+                                    </ul>
+                                </div>
+                                <div class="ltn__blog-btn">
+                                    <a href="blog-details.html">Read more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="ltn__blog-item ltn__blog-item-3">
+                        <div class="ltn__blog-img">
+                            <a href="blog-details.html"><img src="img/blog/3.jpg" alt="#"></a>
+                        </div>
+                        <div class="ltn__blog-brief">
+                            <div class="ltn__blog-meta">
+                                <ul>
+                                    <li class="ltn__blog-author">
+                                        <a href="#"><i class="far fa-user"></i>by: Admin</a>
+                                    </li>
+                                    <li class="ltn__blog-tags">
+                                        <a href="#"><i class="fas fa-tags"></i>Estate</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="ltn__blog-title"><a href="blog-details.html">Recent Commercial Real Estate Transactions</a></h3>
+                            <div class="ltn__blog-meta-btn">
+                                <div class="ltn__blog-meta">
+                                    <ul>
+                                        <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i>May 22, 2021</li>
+                                    </ul>
+                                </div>
+                                <div class="ltn__blog-btn">
+                                    <a href="blog-details.html">Read more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="ltn__blog-item ltn__blog-item-3">
+                        <div class="ltn__blog-img">
+                            <a href="blog-details.html"><img src="img/blog/4.jpg" alt="#"></a>
+                        </div>
+                        <div class="ltn__blog-brief">
+                            <div class="ltn__blog-meta">
+                                <ul>
+                                    <li class="ltn__blog-author">
+                                        <a href="#"><i class="far fa-user"></i>by: Admin</a>
+                                    </li>
+                                    <li class="ltn__blog-tags">
+                                        <a href="#"><i class="fas fa-tags"></i>Room</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="ltn__blog-title"><a href="blog-details.html">Renovating a Living Room? Experts Share Their Secrets</a></h3>
+                            <div class="ltn__blog-meta-btn">
+                                <div class="ltn__blog-meta">
+                                    <ul>
+                                        <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i>June 24, 2021</li>
+                                    </ul>
+                                </div>
+                                <div class="ltn__blog-btn">
+                                    <a href="blog-details.html">Read more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="col-lg-12">
+                    <div class="ltn__blog-item ltn__blog-item-3">
+                        <div class="ltn__blog-img">
+                            <a href="blog-details.html"><img src="img/blog/5.jpg" alt="#"></a>
+                        </div>
+                        <div class="ltn__blog-brief">
+                            <div class="ltn__blog-meta">
+                                <ul>
+                                    <li class="ltn__blog-author">
+                                        <a href="#"><i class="far fa-user"></i>by: Admin</a>
+                                    </li>
+                                    <li class="ltn__blog-tags">
+                                        <a href="#"><i class="fas fa-tags"></i>Trends</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="ltn__blog-title"><a href="blog-details.html">7 home trends that will shape your house in 2021</a></h3>
+                            <div class="ltn__blog-meta-btn">
+                                <div class="ltn__blog-meta">
+                                    <ul>
+                                        <li class="ltn__blog-date"><i class="far fa-calendar-alt"></i>June 24, 2021</li>
+                                    </ul>
+                                </div>
+                                <div class="ltn__blog-btn">
+                                    <a href="blog-details.html">Read more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- BLOG AREA END -->
+
+    <%- include('includes/footer.ejs'); %>
+
+</div>
+<!-- Body main wrapper end -->
+
+    <!-- preloader area start -->
+    <div class="preloader d-none" id="preloader">
+        <div class="preloader-inner">
+            <div class="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+        </div>
+    </div>
+    <!-- preloader area end -->
+
+    <!-- All JS Plugins -->
+    <script src="js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="js/main.js"></script>
+  
+</body>
+</html>
+

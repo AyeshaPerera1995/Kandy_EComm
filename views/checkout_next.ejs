@@ -1,0 +1,365 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Kandy Pharmacy | <%=sub_title%>
+    </title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Place favicon.png in the root directory -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <!-- Font Icons css -->
+    <link rel="stylesheet" href="/css/font-icons.css">
+    <!-- plugins css -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Toastr  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+</head>
+
+<style>
+    body {
+        font-family: 'Roboto';
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        height: 45px;
+        border-radius: 10px;
+        font-family: 'Roboto';
+    }
+
+    .badge-title {
+        background-color: #0a9a73;
+        width: 150px;
+        border-radius: 5px;
+        line-height: 30px;
+        padding: 5px 5px 5px 10px;
+        color: white;
+        font-weight: normal;
+    }
+
+    textarea {
+        min-height: 100px;
+    }
+
+    .ltn__checkout-payment-method .card {
+        padding: 10px;
+    }
+
+    /* upload prescription section styles  */
+    .box {
+        max-width: 500px;
+        width: 100%;
+        padding: 30px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+    }
+
+    .uploadlabel {
+        width: 100%;
+        min-height: 100px;
+        /* background: #084434; */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 3px dashed green;
+        cursor: pointer;
+    }
+
+    .uploadlabel span {
+        font-size: 50px;
+        color: #0a9a73;
+    }
+
+    .uploadlabel p {
+        font-size: 17px;
+        color: #0a9a73;
+        font-weight: 800;
+    }
+
+    .uploaded {
+        margin: 30px 0;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .showfilebox {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 10px 0;
+        padding: 10px 15px;
+        box-shadow: rgb(150, 149, 149) 0px 0px 0px 0.5px, gray 0px 0px 0px 0.5px inset;
+        border-radius: 3px;
+    }
+
+    .showfilebox .left {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .filetype {
+        background: #0a9a73;
+        color: aliceblue;
+        padding: 0px 15px;
+        font-size: 14px;
+        border-radius: 3px;
+    }
+
+    .left h3 {
+        font-weight: 700;
+        font-size: 15px;
+        color: rgb(48, 47, 47);
+        margin: 0;
+    }
+
+    .right span {
+        line-height: 25px;
+        height: 25px;
+        font-size: 25px;
+        display: inline-block;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    /* upload prescription section styles  */
+
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place front is invalid - may break your css so removed */
+        left: 0;
+        right: 0;
+        /* Full width (left and right 0) */
+        top: 0;
+        bottom: 0;
+        /* Full height top and bottom 0 */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+        z-index: 9999;
+        /* Sit on top - higher than any other z-index in your site*/
+    }
+</style>
+
+<body>
+
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
+
+
+
+        <!-- WISHLIST AREA START -->
+        <div class="ltn__checkout-area mb-105">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="ltn__checkout-inner">
+
+                            <div class="ltn__checkout-single-content mt-50">
+                                <h4 class="title-2">Billing Details</h4>
+                                <div class="ltn__checkout-single-content-info">
+                                    <h6>Delivery Address</h6>
+                                    <p id="delivery-address">
+                                        <%=orderCart.billingAddress%>
+                                    </p>
+                                    <h6>Delivery Date</h6>
+                                    <p id="delivery-address">
+                                        <%=orderCart.deliveryDate%>
+                                    </p>
+                                    <h6>Delivery Notes</h6>
+                                    <p id="delivery-address">
+                                        <%=orderCart.deliveryNote%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="ltn__checkout-payment-method mt-50">
+                            <h4 class="title-2">Payment Method</h4>
+                            <div id="checkout_accordion_1">
+                                <!-- card -->
+                                <div class="card">
+                                    <h5 data-bs-toggle="collapse" data-bs-target="#faq-item-2-3" aria-expanded="false">
+                                        <input type="radio" name="pay_method" value="card" checked />
+                                        Visa / Master <img src="/img/icons/payhere.png" alt="#" width="250">
+                                    </h5>
+                                    <div id="faq-item-2-3" class="collapse" data-bs-parent="#checkout_accordion_1">
+                                        <div class="card-body">
+                                            <p>Pay via Cards; you can pay with your credit and debit cards.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ltn__checkout-payment-method mt-50">
+                            <h4 class="title-2">Cart Summary</h4>
+                            <table class="table">
+                                <tbody>
+                                    <% if(cartItems !=undefined){ for (let i=0; i < cartItems.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <% if(cartItems[i].image != "") { %>
+                                                <a href="#"><img
+                                                        src="https://storage.googleapis.com/products_bucket_1/<%=cartItems[i].image%>"
+                                                        alt="#" width="60" height="60"
+                                                        style="border-radius: 5px; border: 1px solid #e5e7e7;"></a>
+                                                <% }else{ %>
+                                                    <a href="#"><img
+                                                        src="/img/Default2.png"
+                                                        alt="#" width="60" height="60"
+                                                        style="border-radius: 5px; border: 1px solid #e5e7e7;"></a>
+                                                <% } %>
+                                            </td>
+                                            <td style="font-size: 14px;">
+                                                <%=cartItems[i].name%> <strong>&nbsp;&nbsp;x&nbsp;&nbsp;
+                                                        <%=cartItems[i].quantity%>
+                                                    </strong>
+                                            </td>
+                                            <td style="float: right; border-bottom: none;">LKR
+                                                <%=cartItems[i].unitPrice.toLocaleString('en-US', {
+                                                    minimumFractionDigits: 2, maximumFractionDigits: 2 })%>
+                                            </td>
+                                        </tr>
+                                        <% } } %>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-lg-6">
+                            <div class="ltn__checkout-payment-method mt-50">
+                                <h4 class="title-2">Prescriptions</h4>
+                                <div class="box">
+                                    <div id="filewrapper">
+                                        <div class="showfilebox">
+                                            <div class="left">
+                                                <span class="filetype">Pdf</span>
+                                                <h3>attach web.pdf</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> -->
+                    <div class="col-lg-6">
+                        <div class="ltn__checkout-payment-method mt-50">
+                            <h4 class="title-2">Order Summary</h4>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Cart Sub Total</td>
+                                        <td style="float: right;" id="sub_total">LKR
+                                            <%=orderCart.subTotal.toLocaleString('en-US', { minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2 });%>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Discount</td>
+                                        <td style="float: right;">LKR
+                                            <%=orderCart.totalDiscount.toLocaleString('en-US', { minimumFractionDigits:
+                                                2, maximumFractionDigits: 2 });%>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shipping Fee</td>
+                                        <td style="float: right;">LKR 350.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tax</td>
+                                        <td style="float: right;">LKR 0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Order Total</strong></td>
+                                        <td style="float: right;"><strong>LKR
+                                                <%=(orderCart.total).toLocaleString('en-US', { minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2 });%></strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <br>
+                            <button class="btn theme-btn-1 btn-effect-1 text-uppercase" id="btnConfirmOrder"
+                                style="float: right;">Confrim
+                                order</button>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- WISHLIST AREA START -->
+        <%- include('includes/footer.ejs'); %>
+
+    </div>
+    <!-- Body main wrapper end -->
+
+    <script src="/js/plugins.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/vendors/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/pay.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const success_msg = urlParams.get('success_msg');
+
+            if (success_msg.length > 0) {
+                toastr.success(success_msg, 'Updated');
+            }
+        });
+
+        document.getElementById("btnConfirmOrder").addEventListener("click", () => {
+            // alert('confrim order')
+            var code = '<%=orderCart.orderCode%>';
+            var total = '<%=orderCart.total%>';
+            fetch(`/checkout/generate_hash/${code}&${total}`)
+                .then(response => {
+                    if (response.ok) {
+                        // alert('ok')
+                        var hash = JSON.parse(response.headers.get("Hash"));
+                        window.processPayment(code, total, hash);
+                    } else {
+                        // alert('server errr')
+                        throw new Error('Server response was not ok');
+                    }
+                })
+            
+        })
+
+    </script>
+</body>
+
+</html>

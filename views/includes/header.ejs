@@ -1,0 +1,887 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .ltn__header-3 .ltn__header-middle-area {
+        padding: 10px 0;
+    }
+
+    .ltn__category-menu-title h2 {
+        line-height: 25px;
+    }
+
+    .add-pres:hover {
+        color: aliceblue;
+    }
+
+    .mini-cart-item {
+        padding-top: 10px;
+    }
+
+    .search-container {
+        position: relative;
+    }
+
+    #suggestionList {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 999;
+        background-color: #fff;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #ccc;
+        border-top: none;
+        max-height: 600px;
+        overflow-y: auto;
+        min-width: 600px;
+    }
+
+    #clearIcon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        display: none;
+    }
+
+    sup {
+        font-weight: 400;
+        height: 18px;
+        width: 18px;
+        line-height: 18px;
+        background-color: #0a9a73;
+        color: white;
+        text-align: center;
+        border-radius: 100%;
+        right: 8px;
+        top: -8px;
+    }
+
+    .mini-cart-icon sup {
+        font-size: 12px;
+    }
+
+    @media (max-width: 767px) {
+        h6 {
+            font-size: 10px;
+        }
+    }
+
+</style>
+
+<!-- HEADER AREA START (header-3) -->
+<header
+    class="header-bottom-area ltn__border-top--- ltn__header-sticky  ltn__sticky-bg-white ltn__primary-bg---- menu-color-white---- d-none--- d-lg-block">
+    <!-- ltn__header-top-area start -->
+    <div class="ltn__header-top-area border-bottom" style="margin-top: 10px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="ltn__top-bar-menu">
+                        <ul>
+                            <li><a href="#"><i class="icon-placeholder"></i> 25, Kandy Road, Kadawatha.</a>
+                            </li>
+                            <li><a href="#"><i class="icon-call"></i> 0112-926-945</a></li>
+                            <li><a href="#"><i class="icon-mail"></i> info@kandypharmacy.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="top-bar-right text-right text-end">
+                        <div class="ltn__top-bar-menu">
+
+                            <ul>
+                                <li>
+                                    <!-- ltn__social-media -->
+                                    <div class="ltn__social-media">
+
+                                        <ul>
+                                            <% if(current_user !=undefined){ %>
+                                                <li>Hi <%=current_user.customer.firstName%>
+                                                </li>&nbsp;&nbsp;&nbsp;
+                                                <% } %>
+                                                    <li><a href="#" title="Facebook"><i
+                                                                class="fab fa-facebook-f"></i></a></li>
+                                                    <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                                                    </li>
+
+                                                    <li><a href="#" title="Instagram"><i
+                                                                class="fab fa-instagram"></i></a></li>
+                                                    <li><a href="#" title="Dribbble"><i class="fab fa-dribbble"></i></a>
+                                                    </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ltn__header-top-area end -->
+    <!-- ltn__header-middle-area start -->
+    <div class="ltn__header-middle-area">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="site-logo">
+                        <a href="/"><img style="margin: 15px 0px 10px 0px;" src="/img/logo.png" width="210" height="75"
+                                alt="Logo"></a>
+                    </div>
+                </div>
+                <div class="col header-contact-serarch-column d-none d-lg-block">
+                    <div class="header-contact-search">
+                        <!-- header-search-2 -->
+                        <div class="header-search-2 search-container">
+                            <input type="text" id="searchInput" oninput="search()" placeholder="Search items here..." />
+                            <button oninput="search()" id="searchIcon">
+                                <span><i class="icon-search"></i></span>
+                            </button>
+                            <span id="clearIcon" onclick="clearSearch()"><i class="fas fa-close"></i></span>
+                            <ul id="suggestionList"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <!-- header-options -->
+                    <div class="ltn__header-options">
+                        <ul>
+                            <li class="d-none---">
+                                <!-- user-menu -->
+                                <div class="ltn__drop-menu user-menu">
+                                    <ul>
+                                        <li>
+                                            <a href="#"><i class="icon-user"></i></a>
+                                            <ul>
+                                                <% if(current_user == undefined){ %>
+                                                <li><a href="/auth/login/1">Sign in</a></li>
+                                                <li><a href="/auth/register">Register</a></li>
+                                                <% } %>                                                
+                                                <% if(current_user != undefined){ %>
+                                                <li><a href="/user/profile">My Account</a></li>
+                                                <li><a href="/auth/logout">Logout</a></li>
+                                                <% } %>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="d-none---" id="top-bar-cart-items">
+                                <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle">
+                                    <span class="mini-cart-icon">
+                                        <i class="icon-shopping-cart"></i>
+                                        <% if(userCart !=undefined && cartItems !=undefined){ %>
+                                            <sup id="cart_len">
+                                                <%=userCart.cartItemsList.length%>
+                                            </sup>
+                                            <% }else if(cart !=undefined && Object.keys(cart).length !=0){ %>
+                                                <sup id="cart_len">
+                                                    <%=Object.keys(cart).length%>
+                                                </sup>
+                                                <% } else { %>
+                                                    <sup>0</sup>
+                                                    <% } %>
+
+                                                        <% if(userCart !=undefined && cartItems !=undefined){ %>
+                                                            <h6 style="margin-top: 10px;"><span>Your
+                                                                    Cart</span> <br><span id="cart_total"
+                                                                    class="ltn__secondary-color">LKR
+                                                                    <%=userCart.orderTotal.toLocaleString('en-US', {
+                                                                        minimumFractionDigits: 2, maximumFractionDigits:
+                                                                        2 });%></span>
+                                                            </h6>
+                                                            <% }else if(cart !=undefined && Object.keys(cart).length
+                                                                !=0){ let totalPrice=0; for (let key in cart) {
+                                                                totalPrice +=cart[key].total_price; } %>
+                                                                <h6 style="margin-top: 10px;">
+                                                                    <span>Your Cart</span><br> <span id="cart_total"
+                                                                        class="ltn__secondary-color">LKR
+                                                                        <%=totalPrice.toLocaleString('en-US', {
+                                                                            minimumFractionDigits: 2,
+                                                                            maximumFractionDigits: 2 });%></span></h6>
+                                                                <% } else { %>
+                                                                    <h6 style="margin-top: 10px;">
+                                                                        <span>Your Cart</span> <br><span
+                                                                            class="ltn__secondary-color">LKR
+                                                                            0.00</span></h6>
+                                                                    <% } %>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ltn__header-middle-area end -->
+    <!-- header-bottom-area start -->
+    <div class="header-bottom-area ltn__border-top--- ltn__header-sticky  ltn__sticky-bg-white ltn__primary-bg---- menu-color-white---- d-none--- d-lg-block">
+        <div class="container">
+            <div class="row" style="padding: 5px;">
+                <div class="col-lg-3 align-self-center">
+                    <!-- CATEGORY-MENU-LIST START -->
+                    <div
+                        class="ltn__category-menu-wrap ltn__category-dropdown-hide ltn__category-menu-with-header-menu">
+                        <div class="ltn__category-menu-title">
+                            <h2 class="section-bg-1--- ltn__secondary-bg text-color-white">categories</h2>
+                        </div>
+                        <div class="ltn__category-menu-toggle ltn__one-line-active">
+                            <ul>
+                                <!-- Load Main Categorie  -->
+                                <% 
+                                if(mainList != null || mainList != undefined){
+                                for(let mainListItem of mainList){ 
+                                %>
+                                    <li class="ltn__category-menu-item ltn__category-menu-drop">
+                                        <a href="/maincategory/viewMainCatProducts/<%=mainListItem.code%>"
+                                            style="text-transform:uppercase"><i class="icon-shopping-bags"></i><span
+                                                hidden>
+                                                <%=mainListItem.code%>:
+                                            </span>
+                                            <%=mainListItem.name%>
+                                        </a>
+
+                                        <!-- Load Categories  -->
+                                        <ul class="ltn__category-submenu">
+                                            <% if(mainListItem.EcomSubCategory1List !=null){ for(var i=0; i <
+                                                mainListItem.EcomSubCategory1List.length; i++){ %>
+                                                <li class="ltn__category-submenu-title" style="text-transform: uppercase;"><a
+                                                        href="/category/viewCatProducts/<%=mainListItem.EcomSubCategory1List[i].code%>">
+                                                        <%=mainListItem.EcomSubCategory1List[i].name%>
+                                                    </a>
+
+                                                </li>
+                                                <% } } %>
+                                        </ul>
+
+                                    </li>
+                                    <% } } else { %>
+                                        <li class="ltn__category-menu-item ltn__category-menu-drop">
+                                            <a href="/" style="text-transform:capitalize" aria-disabled="true">No Categories Found.</a>
+                                        </li>
+                                    <% } %>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- END CATEGORY-MENU-LIST -->
+
+                </div>
+
+                <div class="col-lg-5 align-self-center d-none d-xl-block">
+                    <div class="header-contact-info">
+                        <a class="font-weight-6 ltn__primary-color" href="" style="color: #0a9a73 !important;">SHOP</a>
+                        <a class="font-weight-6 ltn__primary-color" href="" style="padding-left: 60px; color: #0a9a73 !important;">OFFERS</a>
+                        <a class="font-weight-6 ltn__primary-color" href="" style="padding-left: 60px; color: #0a9a73 !important;">ABOUT US</a>
+                       
+                    </div>
+                </div>
+
+                <div class="col-lg-4 align-self-center d-none d-xl-block">
+                    <div class="header-contact-info text-end">
+                            <div class="ltn__breadcrumb-list" style="font-size: 13px; text-align: right;">
+                                <ul>
+                                    <li><a href="/"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span>Home</a></li>
+                                    <% if(sub_title2 != ""){ %>
+                                    <li><a href="#" onclick="history.go(-1); return false;" style="color: #0c9b75;"><%=sub_title2%></a></li>
+                                    <% } %>
+                                    <li><a style="color: #0c9b75;"><span class="ltn__secondary-color"></span><%=sub_title%></a></li>
+                                </ul>
+                            </div> 
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <div class="header-feature-item">
+                    <div class="ltn__breadcrumb-list" style="font-size: 13px; text-align: right;">
+                        <ul>
+                            <li><a href="/"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span>Home</a></li>
+                            <li><a href="" style="color: #0c9b75;"><span class="ltn__secondary-color"></span><%=sub_title%></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div> -->
+
+
+
+        </div>
+    </div>
+    <!-- header-bottom-area end -->
+</header>
+<!-- HEADER AREA END -->
+
+<!-- MOBILE MENU START -->
+<div class="mobile-header-menu-fullwidth mb-30 d-block d-lg-none">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="header-contact-search">
+                    <div class="header-search-2 search-container" style="min-width: 100%;">
+                        <input type="text" id="searchMobileInput" oninput="searchInMobile()"
+                            placeholder="Search items here..." />
+                        <button oninput="searchInMobile()" id="searchMobileIcon">
+                            <span><i class="icon-search"></i></span>
+                        </button>
+                        <!-- <span id="clearMobileIcon" onclick="clearMobileSearch()"><i class="fas fa-close"></i></span> -->
+                        <ul id="suggestionMobileList"></ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MOBILE MENU END -->
+
+<!-- Utilize Cart Menu Start -->
+<div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu">
+    <div class="ltn__utilize-menu-inner ltn__scrollbar">
+        <div class="ltn__utilize-menu-head">
+            <span class="ltn__utilize-menu-title">Shopping Cart</span>
+            <button class="ltn__utilize-close">×</button>
+        </div>
+        <% if(cart !=undefined && Object.keys(cart).length !=0){ %>
+            <!-- Session Cart -->
+            <div class="mini-cart-product-area ltn__scrollbar">
+                <% for (let key in cart) { %>
+                    <div class="mini-cart-item clearfix">
+                        <div class="mini-cart-img">
+                            <a href="/product/single_product/<%=cart[key].stock_id%>"><img src="https://storage.googleapis.com/products_bucket_1/<%=cart[key].image%>"
+                                    alt="Image" width="60" height="60" style="border-radius: 5px; border: 1px solid #e5e7e7; object-fit: contain;"></a>
+                        </div>
+                        <div class="mini-cart-info">
+                            <h6 style="font-size: 13px;"><a href="/product/single_product/<%=cart[key].stock_id%>">
+                                    <%=cart[key].name%>
+                                </a></h6>
+                            <span style="font-size: 13px; font-weight: bold;" class="mini-cart-quantity">
+                                <%=cart[key].quantity%> x LKR <%=cart[key].unit_price.toLocaleString('en-US', {
+                                        minimumFractionDigits: 2, maximumFractionDigits: 2 });%>
+                            </span>
+
+                            
+                                <a style="cursor: pointer; float: right; margin-right: 10px;" onclick="removeCartItem('<%=cart[key].stock_id%>','cart')">
+                                    <span style="color: rgb(192, 9, 9);"><i class="fas fa-trash"></i></span>
+                                </a>
+                        </div>
+                        
+                    </div>
+                    <% } %>
+            </div>
+            <div class="mini-cart-footer">
+                <div class="mini-cart-sub-total">
+                    <% let subTotal=0; for (let key in cart) { subTotal +=cart[key].total_price; } %>
+                        <h5>Sub Total : <span>LKR <%=subTotal.toLocaleString('en-US', {minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2 })%></span></h5>
+                </div>
+                <div class="btn-wrapper">
+                    <a href="/cart" class="theme-btn-1 btn btn-effect-1">View and Edit Cart</a>
+                </div>
+            </div>
+
+            <% } else if(userCart !=undefined && cartItems!=undefined){ %>
+                <!-- Session Cart -->
+                <div class="mini-cart-product-area ltn__scrollbar">
+                    <% for (let i=0; i < cartItems.length; i++) { 
+                        var unit_price = cartItems[i].unitPrice;
+                        var discount = (cartItems[i].discount)/100 * unit_price;
+                        formattedUnitPrice = (unit_price-discount).toLocaleString('en-US', { minimumFractionDigits: 2,maximumFractionDigits: 2 }); 
+                        
+                        %>
+                        <div class="mini-cart-item clearfix">
+                            <div class="mini-cart-img">
+                                <% if(cartItems[i].image != "") { %>
+                                    <a href="/product/single_product/<%=cartItems[i].ecomStockId%>"><img
+                                        src="https://storage.googleapis.com/products_bucket_1/<%=cartItems[i].image%>"
+                                        alt="Image" width="60" height="60" style="border-radius: 5px; border: 1px solid #e5e7e7; object-fit: contain;"></a>
+                                <% }else{ %>
+                                    <a href="/product/single_product/<%=cartItems[i].ecomStockId%>"><img
+                                        src="/img/Default2.png"
+                                        alt="Image" width="60" height="60" style="border-radius: 5px; border: 1px solid #e5e7e7; object-fit: contain;"></a>
+                                <% } %>
+                            </div>
+                            <div class="mini-cart-info">
+                                <h6 style="font-size: 13px;"><a href="/product/single_product/<%=cartItems[i].ecomStockId%>">
+                                        <%=cartItems[i].name%>
+                                    </a></h6>
+                                <span style="font-size: 13px; font-weight: bold;" class="mini-cart-quantity">
+                                    <%=cartItems[i].quantity%> x LKR <%=formattedUnitPrice%>
+                                </span>
+
+                                <a style="cursor: pointer; float: right; margin-right: 10px;" onclick="removeCartItem('<%=cartItems[i].id%>', 'userCart')">
+                                    <span style="color: rgb(192, 9, 9);"><i class="fas fa-trash"></i></span>
+                                </a>
+
+                            </div>
+                        </div>
+                        <% } %>
+                </div>
+
+                <div class="mini-cart-footer">
+                    <div class="mini-cart-sub-total">
+                        <h5>Sub Total : <span>LKR
+                                <%=userCart.orderTotal.toLocaleString('en-US', { minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2 });%></span></h5>
+                    </div>
+                    <div class="btn-wrapper">
+                        <a href="/cart" class="theme-btn-1 btn btn-effect-1">View and Edit Cart</a>
+                        <!-- <a href="/checkout" class="theme-btn-2 btn btn-effect-2">Checkout</a> -->
+                    </div>
+                </div>
+                <% } else { %>
+                    <div class="mini-cart-info">
+                        <span class="mini-cart-quantity">You have no items in your shopping cart. Explore more...</span>
+                    </div>
+                    <% } %>
+
+
+
+    </div>
+</div>
+<!-- Utilize Cart Menu End -->
+
+<!-- Utilize Mobile Menu Start -->
+
+<!-- Utilize Mobile Menu End -->
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script>
+
+function removeCartItem(itemId, tag) {
+    $.ajax({
+        type: 'GET',
+        url: `/cart/remove_cart_item/${itemId}/${tag}`,
+        success: function(data) {
+            console.log(data)
+            updateItemList(data); // Implement this function to update the item list
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+}
+
+function updateItemList(tag) {
+    console.log('call updateItemList: '+tag)
+    if(tag == "cart"){
+
+    $.ajax({
+        type: 'GET',
+        url: `/cart/get_updated_cart_data/${tag}`,
+        success: function(updatedCartData) {
+            const cart = JSON.parse(updatedCartData);
+            const miniCartArea = $('.ltn__utilize-menu-inner');
+            miniCartArea.empty();
+			let itemHtml = "";
+            let subTotal=0;
+			console.log(cart)	
+
+            const numberOfItems = Object.keys(cart).length
+            console.log(numberOfItems)
+
+			itemHtml =`<div class="ltn__utilize-menu-head">
+					        <span class="ltn__utilize-menu-title">Shopping Cart</span>					       
+				        </div>`				
+			miniCartArea.append(itemHtml);
+        
+        if(numberOfItems != 0){
+            for (let key in cart) {
+                const item = cart[key];
+				subTotal +=item.total_price;
+                itemHtml = `
+                    <div class="mini-cart-item clearfix" style="border-top:0">
+                        <div class="mini-cart-img">
+                            <a href="/product/single_product/${item.stock_id}"><img src="https://storage.googleapis.com/products_bucket_1/${item.image}"
+                                    alt="Image" width="60" height="60" style="border-radius: 5px; border: 1px solid #e5e7e7; object-fit: contain;"></a>
+                        </div>
+                        <div class="mini-cart-info">
+                            <h6 style="font-size: 13px;"><a href="/product/single_product/${item.stock_id}">
+                                ${item.name}
+                                </a></h6>
+                            <span style="font-size: 13px; font-weight: bold;" class="mini-cart-quantity">
+                                ${item.quantity} x LKR ${item.unit_price.toLocaleString('en-US', {
+                                        minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>            
+                                <a style="cursor: pointer; float: right; margin-right: 10px;" onclick="removeCartItem(${item.stock_id},'cart')">
+                                    <span style="color: rgb(192, 9, 9);"><i class="fas fa-trash"></i></span>
+                                </a>
+                        </div>
+                    </div>`;
+                miniCartArea.append(itemHtml);
+            }
+
+            // Set top icon numOfItems and Total
+            var cartLen = document.getElementById("cart_len");
+            cartLen.textContent = numberOfItems;
+            var cartTotal = document.getElementById("cart_total");
+            cartTotal.textContent = "LKR "+subTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            itemHtml =`
+			 <div class="mini-cart-footer">
+                <div class="mini-cart-sub-total">
+                        <h5>Sub Total : <span>LKR ${subTotal.toLocaleString('en-US', {
+                                        minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></h5>
+                </div>
+                <div class="btn-wrapper">
+                    <a href="/cart" class="theme-btn-1 btn btn-effect-1">View and Edit Cart</a>
+                </div>
+            </div>`
+			miniCartArea.append(itemHtml);
+
+        }else {
+            console.log('no array data')
+            itemHtml =`<div class="mini-cart-info">
+                        <span class="mini-cart-quantity">You have no items in your shopping cart. Explore more...</span>
+                    </div>`
+            miniCartArea.append(itemHtml);
+        }
+
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+    } else if(tag == "userCart"){
+
+    $.ajax({
+        type: 'GET',
+        url: `/cart/get_updated_cart_data/${tag}`,
+        success: function(updatedCartData) {
+            const cart = JSON.parse(updatedCartData);
+            const miniCartArea = $('.ltn__utilize-menu-inner');
+            miniCartArea.empty();
+			let itemHtml = "";
+			console.log(cart)	
+            var cartItems = cart.cartItemsList
+            console.log(cart.cartItemsList.length)
+
+			itemHtml =`<div class="ltn__utilize-menu-head">
+					        <span class="ltn__utilize-menu-title">Shopping Cart</span>					       
+				        </div>`				
+			miniCartArea.append(itemHtml);
+        
+        if(cartItems.length != 0){
+            for (let i=0; i < cartItems.length; i++) {
+                var unit_price = cartItems[i].unitPrice;
+                var discount = (cartItems[i].discount)/100 * unit_price;
+                var formattedUnitPrice = (unit_price-discount).toLocaleString('en-US', { minimumFractionDigits: 2,maximumFractionDigits: 2 }); 
+                        
+                itemHtml = `
+                    <div class="mini-cart-item clearfix" style="border-top:0">
+                        <div class="mini-cart-img">
+                            <a href="/product/single_product/${cartItems[i].ecomStockId}"><img src="https://storage.googleapis.com/products_bucket_1/${cartItems[i].image}"
+                                    alt="Image" width="60" height="60" style="border-radius: 5px; border: 1px solid #e5e7e7; object-fit: contain;"></a>
+                        </div>
+                        <div class="mini-cart-info">
+                            <h6 style="font-size: 13px;"><a href="/product/single_product/${cartItems[i].ecomStockId}">
+                                ${cartItems[i].name}
+                                </a></h6>
+                            <span style="font-size: 13px; font-weight: bold;" class="mini-cart-quantity">
+                                ${cartItems[i].quantity} x LKR ${formattedUnitPrice}
+                            </span>            
+                                <a style="cursor: pointer; float: right; margin-right: 10px;" onclick="removeCartItem(${cartItems[i].id},'cart')">
+                                    <span style="color: rgb(192, 9, 9);"><i class="fas fa-trash"></i></span>
+                                </a>
+                        </div>
+                    </div>`;
+                miniCartArea.append(itemHtml);
+            }
+
+            // Set top icon numOfItems and Total
+            var cartLen = document.getElementById("cart_len");
+            cartLen.textContent = cart.cartItemsList.length;
+            var cartTotal = document.getElementById("cart_total");
+            cartTotal.textContent = "LKR "+cart.subTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            itemHtml =`
+			 <div class="mini-cart-footer">
+                <div class="mini-cart-sub-total">
+                        <h5>Sub Total : <span>LKR ${cart.orderTotal.toLocaleString('en-US', {
+                                        minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></h5>
+                </div>
+                <div class="btn-wrapper">
+                    <a href="/cart" class="theme-btn-1 btn btn-effect-1">View and Edit Cart</a>
+                </div>
+            </div>`
+			miniCartArea.append(itemHtml);
+
+        }else {
+            console.log('no array data')
+            itemHtml =`<div class="mini-cart-info">
+                        <span class="mini-cart-quantity">You have no items in your shopping cart. Explore more...</span>
+                    </div>`
+            miniCartArea.append(itemHtml);
+        }
+
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+    }
+    
+}
+
+    function search() {
+        // alert('search...')
+        const input = document.getElementById("searchInput");
+        const query = input.value.toLowerCase();
+        // //console.log(query)
+        var values;
+
+        $.ajax({
+            url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/Search/ProductName?nextPage=1&rowCount=12&value=' + query,
+            type: 'GET',
+            success: function (res) {
+                if (res.content != null) {
+                    // //console.log(res)
+                    values = res.content.List
+
+                    const suggestionList = document.getElementById("suggestionList");
+                    const clearIcon = document.getElementById("clearIcon");
+                    const searchIcon = document.getElementById("searchIcon");
+
+                    // Clear previous suggestions
+                    suggestionList.innerHTML = "";
+
+                    // Filter values based on query
+                    const filteredValues = values.filter((value) =>
+                        value.ProductName.toLowerCase().includes(query)
+                    );
+
+                    // Display suggestions
+                    if (filteredValues.length > 0 && query !== "") {
+                        let counter = 0;
+                        filteredValues.forEach((value) => {
+                            if (counter < 5) {
+                                // //console.log(value.ProductImage)
+                                const listItem = document.createElement("li");
+                                listItem.style.borderBottom = "1px solid #efefef";
+                                listItem.style.padding = "10px";
+
+                                const button = document.createElement("a");
+                                button.innerHTML = "View Product";
+                                button.href = "/product/single_product/" + value.StockId
+                                button.className = "btn btn-sm btn-success"
+                                button.style.padding = "2px 5px 2px 5px"
+                                button.style.borderRadius = "5px"
+
+                                const container = document.createElement("div");
+
+                                const textContent = document.createElement("label");
+                                textContent.innerHTML = value.ProductName;
+
+                                const img = document.createElement("img");
+                                if (value.ProductImage != "") {
+                                    img.src = "https://storage.googleapis.com/products_bucket_1/" + value.ProductImage;
+                                } else {
+                                    img.src = "/img/Default2.png"
+                                }
+                                img.style.border = "1px solid #efeded"
+                                img.style.margin = "5px"
+                                img.width = "60";
+                                img.height = "60";
+
+                                const label = document.createElement("label");
+                                label.textContent = "LKR " + value.UnitSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                label.style.float = "right";
+
+                                const lineBreak = document.createElement("br");
+
+                                container.appendChild(button);
+                                container.appendChild(lineBreak);
+
+                                listItem.appendChild(img);
+                                listItem.appendChild(textContent);
+                                listItem.appendChild(label);
+                                listItem.appendChild(container);
+
+                                suggestionList.appendChild(listItem);
+                                counter++;
+                            }
+                        });
+
+                        const bottomLine = document.createElement("li");
+                        const aref = document.createElement("a");
+                        bottomLine.appendChild(aref);
+                        aref.textContent = `Show all ${res.content.TotalCount} results >>`
+                        aref.style.marginLeft = "10px"
+                        aref.style.color = "#0A9A73"
+                        aref.href = `/advance_search/result/${query}`
+                        suggestionList.appendChild(bottomLine);
+                        suggestionList.style.display = "block"; // Show the suggestion list
+                        clearIcon.style.display = "block"; // Show the clear icon
+                        searchIcon.style.display = "none";
+                    } else {
+                        suggestionList.style.display = "none"; // Hide the suggestion list
+                        clearIcon.style.display = "none"; // Hide the clear icon
+                        searchIcon.style.display = "block";
+                    }
+                } else {
+                    suggestionList.innerHTML = "";
+                    const bottomLine = document.createElement("li");
+                    bottomLine.textContent = "No products found for '" + query + "'"
+                    bottomLine.style.marginLeft = "10px"
+                    bottomLine.style.color = "#0A9A73"
+                    suggestionList.appendChild(bottomLine);
+                    suggestionList.style.display = "block";
+                    clearIcon.style.display = "block";
+                    searchIcon.style.display = "none";
+                }
+            }
+        });
+
+    }
+
+    function clearSearch() {
+        const input = document.getElementById("searchInput");
+        input.value = "";
+        search();
+    }
+
+    function searchInMobile() {
+        // alert("searchInMobile")
+        const input = document.getElementById("searchMobileInput");
+        const query = input.value.toLowerCase();
+        // //console.log(query)
+        var values;
+
+        $.ajax({
+            url: 'http://app360dev-001-site5.dtempurl.com/api/ECommerce/Search/ProductName?nextPage=1&rowCount=12&value=' + query,
+            type: 'GET',
+            success: function (res) {
+                // //console.log(res)
+                if (res.content != null) {
+                    values = res.content.List
+
+                    const suggestionList = document.getElementById("suggestionMobileList");
+                    const clearIcon = document.getElementById("clearMobileIcon");
+                    const searchIcon = document.getElementById("searchMobileIcon");
+
+                    // Clear previous suggestions
+                    suggestionList.innerHTML = "";
+
+                    // Filter values based on query
+                    const filteredValues = values.filter((value) =>
+                        value.ProductName.toLowerCase().includes(query)
+                    );
+
+                    // Display suggestions
+                    if (filteredValues.length > 0 && query !== "") {
+                        let counter = 0;
+                        filteredValues.forEach((value) => {
+                            if (counter < 5) {
+                                // //console.log(value.ProductImage)
+                                const listItem = document.createElement("li");
+                                listItem.style.borderBottom = "1px solid #efefef";
+                                listItem.style.padding = "10px";
+
+                                const button = document.createElement("a");
+                                button.innerHTML = "View Product";
+                                button.href = "/product/single_product/" + value.StockId
+                                button.className = "btn btn-sm btn-success"
+                                button.style.padding = "2px 5px 2px 5px"
+                                button.style.borderRadius = "5px"
+
+                                const container = document.createElement("div");
+
+                                const textContent = document.createElement("label");
+                                textContent.innerHTML = value.ProductName;
+
+                                const img = document.createElement("img");
+                                if (value.ProductImage != "") {
+                                    img.src = "https://storage.googleapis.com/products_bucket_1/" + value.ProductImage;
+                                } else {
+                                    img.src = "/img/Default2.png"
+                                }
+                                img.style.border = "1px solid #efeded"
+                                img.style.margin = "5px"
+                                img.width = "60";
+                                img.height = "60";
+
+                                const label = document.createElement("label");
+                                label.textContent = "LKR " + value.UnitSellingPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                label.style.float = "right";
+
+                                const lineBreak = document.createElement("br");
+
+                                container.appendChild(button);
+                                container.appendChild(lineBreak);
+
+                                listItem.appendChild(img);
+                                listItem.appendChild(textContent);
+                                listItem.appendChild(label);
+                                listItem.appendChild(container);
+
+                                suggestionList.appendChild(listItem);
+                                counter++;
+                            }
+                        });
+
+                        const bottomLine = document.createElement("li");
+                        const aref = document.createElement("a");
+                        bottomLine.appendChild(aref);
+                        aref.textContent = `Show all ${res.content.TotalCount} results >>`
+                        aref.style.marginLeft = "10px"
+                        aref.style.color = "#0A9A73"
+                        aref.href = `/advance_search/result/${query}`
+                        suggestionList.appendChild(bottomLine);
+                        suggestionList.style.display = "block"; // Show the suggestion list
+                        // clearIcon.style.display = "block"; // Show the clear icon
+                        searchIcon.style.display = "none";
+                    } else {
+                        suggestionList.style.display = "none"; // Hide the suggestion list
+                        // clearIcon.style.display = "none"; // Hide the clear icon
+                        searchIcon.style.display = "block";
+                    }
+                } else {
+                    var mobileSugList = $("#suggestionMobileList");
+                    mobileSugList.empty();
+                    const bottomLine = document.createElement("li");
+                    bottomLine.textContent = "No products found for '" + query + "'"
+                    bottomLine.style.marginLeft = "10px"
+                    bottomLine.style.color = "#0A9A73"
+                    mobileSugList.append(bottomLine);
+                    mobileSugList.css("display", "block");
+                    mobileSugList.css("list-style", "none");
+                    searchIcon.style.display = "none";
+                }
+            }
+        });
+    }
+
+    const input = document.getElementById("searchInput");
+    input.addEventListener("keydown", function (event) {
+        // Check if the pressed key is Enter
+        if (event.keyCode === 13) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+            const query = input.value.toLowerCase();
+            //console.log("query: "+query)
+            // Call the search page
+            window.location.pathname = `/advance_search/result/${query}`
+        }
+    });
+
+    const mobileInput = document.getElementById("searchMobileInput");
+    mobileInput.addEventListener("keydown", function (event) {
+        // Check if the pressed key is Enter
+        if (event.keyCode === 13) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+            const mobileQuery = mobileInput.value.toLowerCase();
+            //console.log("mobile query: "+mobileQuery)
+           // Call the search page
+           window.location.pathname = `/advance_search/result/${mobileQuery}`
+        }
+    });
+
+
+</script>
